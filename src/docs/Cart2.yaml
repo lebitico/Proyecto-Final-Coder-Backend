@@ -1,0 +1,159 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      description: Obtener todos los carritos
+      operationId: getCarts  
+      responses:
+        "200":
+          description: Los carritos que fueron cargados satisfactoriamente
+          content:
+           application/json:
+            schema:
+             $ref: '#/components/schemas/Cart'
+        "500":
+          description: Error interno del Server. Query defectuosa
+    post:
+      tags:
+        - Carts
+      summary: Crear carritos
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'    
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene el detalle de un solo carrito por ID
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se solicita
+          schema:
+            type: string
+    delete:
+      summary: Eliminamos un carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se solicita
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Se eliminó el carrito satisfactoriamente
+        "500":
+          description: Error interno del Server. Query defectuosa
+        "404":
+          description: No se encontro el producto dentro del carrito por ese ID
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Modificamos los productos de un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se solicita
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se solicita
+          schema:
+            type: string    
+      responses:
+        "200":
+          description: El carrito fue modificado satisfactoriamente
+        "500":
+          description: Error interno del Server. Query defectuosa
+        "404":
+          description: No se encontro el carrito o el producto por ese ID
+    delete:
+      summary: Eliminamos un producto de un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se solicita
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se solicita
+          schema:
+            type: string            
+      responses:
+        "200":
+          description: Se eliminó el producto del carrito satisfactoriamente
+        "500":
+          description: Error interno del Server. Query defectuosa
+        "404":
+          description: No se encontro el producto dentro del carrito por ese ID
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Generamos la orden de compra/ticket del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se solicita
+          schema:
+            type: string
+      responses:
+        "200":
+          description: La orden del ticket del carrito fue creado satisfactoriamente
+        "500":
+          description: Error interno del Server. Query defectuosa
+        "404":
+          description: No se encontro la orden de compra del carrito por ese ID
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID auto generado por mongo
+        products:
+          type: string
+          description: Los productos del carrito
+      example:
+        _id: ObjectId("64cd58c4b1cc42afb4c01101")
+        products: Array
+  requestBodies:
+    Cart:
+      description: Los carritos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Cart'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Cart'
