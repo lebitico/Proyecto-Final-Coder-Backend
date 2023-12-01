@@ -8,7 +8,11 @@ import nodemailer from 'nodemailer'
 import twilio from 'twilio'
 import cors from 'cors'
 import handlebars from 'express-handlebars'
-import __dirname from './utils/utils.js'
+import path from 'path'
+import exphbs from 'express-handlebars';
+import {fileURLToPath} from 'url'
+import { dirname } from 'path'
+//import __dirname from './utils/utils.js'
 import session from 'express-session'
 //import sessionRouter from './routes/session.router.js'
 import passport from 'passport'
@@ -17,7 +21,7 @@ import { addLogger } from './utils/logger.js'
 import cookieParser from 'cookie-parser'
 
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express'; 
+import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express()
 
@@ -38,10 +42,64 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookieParser());
 app.use(addLogger)
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Configurar los motores de plantilla
-app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars') 
+const handlebarss = exphbs.create({
+    defaultLayout: 'main',
+    extname: '.handlebars',
+    layoutsDir: path.join(__dirname, 'views/layouts/'), // Directorio de los layouts
+    partialsDir: path.join(__dirname, 'views/') // Directorio de los partials
+});
+
+app.engine('handlebars', handlebarss.engine);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'handlebars');
+
+app.get('/', (req, res) => {
+    res.render('login');
+});
+
+app.get('/cart', (req, res) => {
+res.render('cart'); // Renderiza la vista 'cart.handlebars'
+});
+
+app.get('/cartDetail', (req, res) => {
+res.render('cartDetail'); // Renderiza la vista 'cartDetail.handlebars'
+});
+
+app.get('/chat', (req, res) => {
+res.render('chat'); // Renderiza la vista 'chat.handlebars'
+});
+app.get('/form', (req, res) => {
+res.render('form'); // Renderiza la vista 'form.handlebars'
+});
+
+app.get('/home', (req, res) => {
+res.render('home'); // Renderiza la vista 'home.handlebars'
+});
+
+app.get('/login', (req, res) => {
+res.render('login'); // Renderiza la vista 'login.handlebars'
+});
+
+app.get('/productList', (req, res) => {
+res.render('productList'); // Renderiza la vista 'productList.handlebars'
+});
+
+app.get('/profile', (req, res) => {
+res.render('profile'); // Renderiza la vista 'profile.handlebars'
+});
+
+app.get('/realTimeProducts', (req, res) => {
+res.render('realTimeProducts'); // Renderiza la vista 'realTimeProducts.handlebars'
+});
+
+app.get('/register', (req, res) => {
+res.render('register'); // Renderiza la vista 'register.handlebars'
+});
+
 
 
 const swaggerOptions = {
