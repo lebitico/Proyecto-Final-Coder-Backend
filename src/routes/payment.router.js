@@ -1,10 +1,16 @@
-import express from "express";
+import { Router } from "express";
+//import express from "express";
 import { cartService, productService } from "../services/index.js";
 import Stripe from "stripe";
 import config from "../config/config.js";
 
-const stripe = new Stripe(config.keyStripePrivate);
-const paymentRouter = express.Router();
+import { createSession } from "../controllers/payment.controller.js";
+
+
+const router = Router()
+
+const stripe = new Stripe(config.STRIPE_PRIVATE_KEY);
+//const paymentRouter = express.Router();
 
 // Mueve la declaración al principio
 const getProductsDetails = async (products) => {
@@ -20,7 +26,7 @@ const getProductsDetails = async (products) => {
     }
 };
 
-paymentRouter.post("/payment-intents", async (req, res) => {
+router.post("/payment-intents", async (req, res) => {
     console.log("Entró al manejador de la ruta /payment");
     const { cartId } = req.body;
 
@@ -83,7 +89,14 @@ const calculateTotalAmount = (products) => {
     return totalAmount;
 };
 
-export default paymentRouter;
+
+router.post("/create-checkout-session", createSession);
+
+router.get("/success", (req, res) => res.redirect("/success.html"));
+
+router.get("/cancel", (req, res) => res.redirect("/cancel.html"));
+
+export default router;
 
 
 

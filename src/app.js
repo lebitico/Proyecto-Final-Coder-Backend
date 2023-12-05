@@ -19,6 +19,7 @@ import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import { addLogger } from './utils/logger.js'
 import cookieParser from 'cookie-parser'
+import paymentsRouter from './routes/payment.router.js'
 
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
@@ -41,6 +42,10 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser());
 app.use(addLogger)
+app.use(paymentsRouter)
+
+// Static files
+app.use(express.static(path.resolve("src/public")));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -134,6 +139,7 @@ app.use('/api/session', usersRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
+app.use('/api/payments', paymentsRouter)
 
 app.get('/mail', async(req, res) => {
     const result = await transport.sendMail({
