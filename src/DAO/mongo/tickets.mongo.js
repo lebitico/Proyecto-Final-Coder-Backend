@@ -3,26 +3,42 @@ import ProductModel from "./models/products.mongo.model.js"
 
 export default class Ticket {
    
-    getTicket = async () => { return await TicketModel.find() }
-    getTicketById = async (id) => { return await TicketModel.findOne({ _id: id }) }
-    getNextId = (list) => {
-        return (list.length == 0) ? 1 : list[list.length - 1].id + 1
+    async getTicket() {
+        try {
+          return await ticketModel.find().lean().exec();
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      async getTicketById(id) {
+        try {
+          if (id) {
+            return await ticketModel.findById(id).lean().exec();
+          }
+        } catch (error) {
+          throw error;
+        }
+      }
+
+   async updateTicket(id, data) {
+    try {
+      if ((id, data)) {
+        return await ticketModel.findByIdAndUpdate(id, data);
+      }
+    } catch (e) {
+      throw e;
     }
+  }
 
     
-    createTickets = async (totalamount, userMail) => { 
-        const list = await this.getTicket()
-        const options = { timeZone: 'America/Argentina/Buenos_Aires' };
-        const argentinaDate  =new Date().toLocaleString('en-US', options);  
-       
-        const ticket= {
-            purchase_datetime : argentinaDate,
-            code : this.getNextId(list),
-            amount: totalamount,
-            purchaser: userMail,
+    async createTicket(data) {
+        try {
+          if (data) return await ticketModel.create(data);
+        } catch (error) {
+          throw error;
         }
-            return await TicketModel.create(ticket)
-    } 
+      }
 
 
 

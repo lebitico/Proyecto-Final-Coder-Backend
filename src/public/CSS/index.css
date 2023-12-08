@@ -1,0 +1,817 @@
+/*Generales*/
+:root {
+  /**Paleta de Colores**/
+  --blanco: #ffffff;
+  --oscuro: #212121;
+  --primario: #ffc107;
+  --secundario: #0097a7;
+  --gris: #757575;
+  --grisClaro: #dfe9f3;
+  /**Tipos de fuentes**/
+  --fuente-principal: "Krub", sans-serif;
+  --fuente-secundaria: Arial, Helvetica, sans-serif;
+}
+
+/*Codigo que se aplica en todo el html*/
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  /*1rem ->10px*/
+  box-sizing: border-box;
+  scroll-snap-type: y proximity;
+}
+
+/*Este codigo sirve para detener el scroll en secciones determinadas para que sea mas facil navegar*/
+.servicio,
+.navegacion-principal,
+.formulario {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  /*Le sacamos el borde al body de 16px*/
+  box-sizing: border-box;
+}
+
+/*codigo que se aplica a todo el body*/
+body {
+  font-size: 16px;
+  /* 1rem = 10px */
+  font-family: "Krub", sans-serif;
+  /*Todos los textos van a tener esta fuente*/
+}
+
+.contenedor {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.titulo {
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.nav-index {
+  background-color: var(--secundario);
+  padding: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-principal {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 96px;
+  align-items: center;
+}
+
+.nav-principal a {
+  padding: 2.3rem;
+  color: var(--blanco);
+  text-decoration: none;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.nav-principal a:hover {
+  color: var(--primario);
+}
+
+.navegation {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 128px;
+}
+
+.navegation a:hover {
+  font-size: 2.7rem;
+}
+
+.nav li a {
+  display: block;
+  padding: 1rem;
+  text-align: center;
+}
+
+.nav a {
+  display: block;
+  padding: 1rem;
+  text-align: center;
+}
+
+.img-bg {
+  background-image: url("../../1370ead97743e2d88e2ea9cb7ad15677f7ffbb27_BANNER-WEB-NEW.jpg");
+  height: 818px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-bottom: 2rem;
+}
+
+.nav a {
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--blanco);
+  font-size: 2rem;
+}
+
+.nav a span {
+  font-size: 1.2rem;
+}
+
+.nav a:hover {
+  color: var(--oscuro);
+  background-color: var(--primario);
+}
+
+.contenedor-1 {
+  max-width: 185rem;
+  margin: 0 auto;
+}
+
+.footer {
+  background-color: var(--secundario);
+  padding: 1rem;
+  text-align: center;
+  color: var(--blanco);
+  font-size: 2rem;
+}
+
+.nav-home {
+  background-color: var(--grisClaro);
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.botones {
+  display: flex;
+  gap: 2rem;
+  width: 70%;
+}
+
+.btn {
+  padding: 1rem;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: center;
+  text-transform: uppercase;
+  border: solid var(--oscuro);
+  background-color: var(--primario);
+}
+
+.margin {
+  margin-top: 2rem;
+}
+
+.btn:hover {
+  background-color: var(--gris);
+  color: var(--blanco);
+  border-radius: 1rem;
+}
+
+.titulo-realTimeProducts {
+  text-align: center;
+}
+.txtfont {
+  text-transform: uppercase;
+  font-size: 7rem;
+}
+
+.contenedor5 {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.list-product {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 2rem;
+}
+
+.about-blog {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: var(--gris);
+  padding: 2rem;
+  color: var(--blanco);
+}
+
+.texto {
+  grid-column-end: 2;
+  grid-column-start: 1;
+  font-size: 2rem;
+  line-height: 1.5;
+  text-align: justify;
+  color: var(--blanco);
+  padding: 2rem;
+}
+
+.texto p {
+  margin-top: 2rem;
+}
+
+.imagen {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.img-blog {
+  background-image: url("../../Ordenador-PC-Gaming-IP.jpg");
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto auto;
+}
+
+.contacto {
+  background-color: var(--secundario);
+  margin-top: 2rem;
+  color: var(--blanco);
+  padding: 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-around;
+  font-size: 2rem;
+}
+
+.card {
+  background-color: var(--secundario);
+  padding: 1rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 2rem;
+  gap: 2rem;
+}
+
+.cards img {
+  max-height: 250px;
+  margin: 0 auto;
+}
+
+.card-title {
+  color: var(--blanco);
+  text-align: center;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-top: 2rem;
+}
+
+.card-stock {
+  color: var(--blanco);
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.card-price {
+  color: var(--blanco);
+  text-align: center;
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-top: 2rem;
+}
+
+.card-enlace {
+  padding: 1rem;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: center;
+  text-transform: uppercase;
+  border: solid var(--oscuro);
+  background-color: var(--primario);
+  text-decoration: none;
+  margin-top: 2rem;
+  color: var(--oscuro);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+._id {
+  margin-top: 2rem;
+  color: var(--blanco);
+}
+
+.chat h1 {
+  text-transform: uppercase;
+}
+
+.img-chatbox {
+  background-image: url("../../maxresdefault.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 2rem;
+}
+
+.contenedor3 {
+  max-width: 20%;
+  margin: 2rem auto;
+  border-radius: 2%;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.pagination-container a,
+.pagination-text {
+  text-transform: uppercase;
+  font-size: 2rem;
+  color: var(--blanco);
+  padding: 1.5rem;
+}
+
+.categorias a {
+  text-transform: uppercase;
+  color: var(--blanco);
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.categorias a:hover {
+  color: var(--primario);
+}
+
+.categorias-contenedor {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  place-items: center;
+  max-width: 80%;
+  margin: 2rem auto;
+  background-color: var(--secundario);
+  padding: 0.5rem;
+}
+
+.titulo-categoria {
+  padding: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  color: var(--primario);
+}
+
+.button-filter {
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.quantity {
+  margin-top: 2rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--blanco);
+}
+
+.login-titulo {
+  text-transform: uppercase;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.login-subtitulo {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.login-contenido {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 48rem;
+  border-radius: 0.9%;
+  padding: 0.5rem;
+}
+
+.form-login {
+  top: 20rem;
+  position: absolute;
+  width: 20%;
+  margin: 0 75rem;
+  padding: 1rem;
+}
+
+.form-login input[type="email"],
+input[type="password"],
+input[type="text"],
+button[type="submit"] {
+  width: 100%;
+}
+
+.form-login input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 1rem;
+}
+
+.titulo-register {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.form-register {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 20%;
+  position: absolute;
+  top: 30rem;
+  right: 80rem;
+}
+
+.form-register button[type="submit"] {
+  grid-column-start: -3;
+  grid-column-end: -1;
+  width: 100%;
+  padding: 1rem;
+  text-transform: uppercase;
+  border: solid var(--oscuro);
+  background-color: var(--blanco);
+}
+
+.form-register input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.3rem;
+}
+
+.form-register button[type="submit"]:hover {
+  background-color: var(--gris);
+  color: var(--blanco);
+  border-radius: 1rem;
+}
+
+.form-register a {
+  grid-column-start: -3;
+  grid-column-end: -1;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.enlace-login {
+  margin: 2rem 0;
+}
+
+.titulo-home {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.titulo-home span {
+  color: var(--secundario);
+  font-weight: bold;
+  font-size: 3.8rem;
+}
+
+.titulo-profile {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: var(--fuente-principal);
+}
+
+.contenido-profile {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 25%;
+  margin: 0 auto;
+  background-color: var(--grisClaro);
+  padding: 2rem;
+  text-align: center;
+}
+
+.contenido-profile label {
+  grid-column-start: -3;
+  grid-column-end: -2;
+}
+
+.contenido-profile h3 {
+  grid-column-start: -2;
+  grid-column-end: -1;
+}
+
+.contenido-profile a {
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: var(--oscuro);
+}
+
+.contenido-profile a:hover {
+  font-size: 2.5rem;
+  color: var(--primario);
+}
+
+.github {
+  text-decoration: none;
+  color: var(--oscuro);
+}
+
+.github-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+  background-color: var(--blanco);
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  border: solid var(--oscuro);
+}
+
+.github-div:hover {
+  background-color: var(--grisClaro);
+  border-radius: 1rem;
+}
+
+.btn-login {
+  padding: 1rem;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: center;
+  text-transform: uppercase;
+  border: solid var(--oscuro);
+  background-color: var(--blanco);
+}
+
+.btn-login:hover {
+  background-color: var(--grisClaro);
+  border-radius: 1rem;
+}
+
+.div-password {
+  position: relative;
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+}
+
+.div-password input[type="password"],
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+  margin-top: 2rem;
+  width: 100%;
+  height: 45px;
+}
+
+.div-password input[type="text"] {
+  margin-top: 2rem;
+  width: 100%;
+  height: 45px;
+}
+
+.div-password-login {
+  text-align: center;
+  width: 100%;
+  height: 100px;
+}
+
+.icon-eye-login {
+  position: absolute;
+  top: 5.2rem;
+  right: 1rem;
+}
+
+.div-password-login input[type="password"] {
+  margin-top: 2rem;
+  width: 100%;
+  height: 45px;
+}
+
+.div-password-login input[type="text"] {
+  margin-top: 2rem;
+  width: 100%;
+  height: 45px;
+}
+
+.password-regiter {
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+  height: 100px;
+  position: relative;
+}
+
+.password-register i {
+  position: absolute;
+  bottom: 10.98rem;
+  right: 2rem;
+}
+
+.img-login {
+  background-image: url("../../31116.jpg");
+  height: 952px;
+  width: 1903px;
+  margin: 0px auto;
+}
+
+.nav-products {
+  background-color: var(--secundario);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 9.6rem;
+}
+
+.a {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 2rem;
+  font-size: 2rem;
+}
+
+.a a {
+  text-decoration: none;
+  color: var(--blanco);
+  margin-right: 2rem;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.a a:hover {
+  font-size: 2.7rem;
+  color: var(--primario);
+}
+
+.nav-products {
+  display: flex;
+  color: var(--blanco);
+  gap: 20px;
+  font-size: 2rem;
+}
+
+.nav-products a {
+  text-decoration: none;
+  text-align: center;
+  color: var(--blanco);
+  padding: 0.2rem;
+}
+
+.nav-products a:hover {
+  color: var(--primario);
+}
+
+.contenedorP {
+  position: absolute;
+  top: 20rem;
+}
+
+#container {
+  background-color: var(--blanco);
+  position: relative;
+  width: 80px;
+  height: 40px;
+  box-shadow: inset 4px 4px 6px #cecece, inset 4px 4px 6px #cecece;
+  cursor: pointer;
+  border-radius: 25px;
+  margin: 10px 1750px;
+  border: solid 2px var(--oscuro);
+}
+
+.toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  transform: scale(0.7);
+  background-color: linear-gradient(145deg, #d8d8d8, #ffffff);
+  border-radius: 25px;
+  box-shadow: 3px 3px 8px #c4c4c4, -3px -3px 8px #ffffff;
+  border: solid 2px var(--oscuro);
+}
+
+#container.active .toggle {
+  left: 40px;
+}
+
+body.active {
+  background-color: var(--oscuro);
+}
+
+.carrito-producto {
+  background-color: var(--secundario);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: center;
+  padding: 2rem;
+  justify-content: space-around;
+  max-width: 170rem;
+  margin: 2rem auto;
+  align-items: center;
+}
+
+.card-title-card {
+  margin-bottom: 2rem;
+  color: var(--blanco);
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.card-descripcion-cart {
+  color: var(--blanco);
+  margin-bottom: 1rem;
+  max-width: 300px;
+}
+
+.card-price-cart {
+  max-width: 300px;
+  text-align: left;
+  color: var(--blanco);
+  font-size: 4rem;
+}
+
+.volver-cart {
+  padding: 2rem;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--secundario);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.volver-cart a {
+  color: var(--blanco);
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.productoAgregado {
+  display: flex;
+  background-color: var(--secundario);
+  max-width: 500px;
+  margin: 2rem auto;
+  justify-content: space-between;
+}
+
+.productoAgregado a {
+  color: var(--blanco);
+  font-size: 2rem;
+  text-decoration: none;
+  padding: 2rem;
+}
+
+.productoAgregado a:hover {
+  background-color: var(--primario);
+  color: var(--oscuro);
+}
+
+.swal2-input {
+  width: 60%;
+  margin: 0 auto;
+}
+
+/* Alinea verticalmente el botón dentro del campo de entrada */
+.input-group-append button {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  padding: 0.375rem 0.75rem;
+  background-color: #fff; /* Color de fondo del botón */
+  border: 1px solid #ced4da; /* Borde del botón */
+  border-left: 0; /* Elimina el borde izquierdo del botón */
+}
+
+/* Estilo de borde redondeado para el botón */
+.input-group-append button:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group-append button:last-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Cambiar el color del botón al enfocar el campo de entrada */
+.input-group:focus-within .input-group-append button {
+  background-color: #f8f9fa;
+}
+
+input#password {
+  transition: width 0.3s ease, height 0.3s ease;
+}
