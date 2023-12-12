@@ -8,6 +8,13 @@ const TicketModel = mongoose.model ('tickets', new mongoose.Schema({
     amount:Number,  //investigatar datastamp
     purchaser:String,
     //{ timestamps: true }
+    products: [
+        {
+          pid: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+          quantity: Number,
+        },
+      ],
+    status: String,
 })
 
 )

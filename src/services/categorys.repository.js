@@ -1,4 +1,4 @@
-import CategoryDTO from "../DTO/category.dto.js";
+import categoryDTO from "../DAO/DTO/category.dto.js";
 
 export default class CategoryRepository {
   constructor(categoryDAO) {
@@ -7,7 +7,7 @@ export default class CategoryRepository {
   async addCategory(data) {
     try {
       const category = await this.categoryDAO.addCategory(data);
-      return new CategoryDTO(category);
+      return new categoryDTO(category);
     } catch (error) {
       throw error;
     }

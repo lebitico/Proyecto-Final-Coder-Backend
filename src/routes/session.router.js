@@ -1,32 +1,32 @@
 import { Router } from "express";
 import {
-  loginUser,
-  registerUser,
-  getUserCurrent,
+  //loginUser,
+  //registerUser,
+  //getUserCurrent,
   verificarUser,
   resetearPassword,
   resetPasswordForm,
   restart,
   validPassword,
   getProfile,
-  logoutUser
+  //logoutUser
 } from "../controllers/session.controllers.js";
 import passport from "passport";
 const router = Router();
 
-router.post("/login", loginUser);
+//router.post("/login", loginUser);
 
-router.post("/register", registerUser);
+//router.post("/register", registerUser);
 
-router.get("/login", (req, res) => {
+/*router.get("/login", (req, res) => {
   if (Object.keys(req.cookies).length != 0) return res.redirect("/profile");
   res.render("login", {});
-});
+}); */
 
-router.get(
+/*router.get(
   "/logout",
   passport.authenticate("jwt", { session: false }),logoutUser
-);
+);*/
 
 router.get(
   "/profile",
@@ -36,11 +36,11 @@ router.get(
 
 router.get("/verify/:token", verificarUser);
 
-router.get(
+/*router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   getUserCurrent
-);
+); */
 
 router.get("/resetPassword", resetearPassword);
 

@@ -1,7 +1,7 @@
-import { sessionRepository } from "../services/index.js";
-import { generateToken } from "../utils.js";
-import jwt from "jsonwebtoken";
-import Swal from "sweetalert2";
+import { sessionRepository } from "../services/index.js"
+import { generateToken } from "../utils/utils.js"
+import jwt from "jsonwebtoken"
+import Swal from "sweetalert2"
 
 export const loginUser = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export const loginUser = async (req, res) => {
     }
     const access_token = generateToken(user);
     res
-      .cookie("keyCookieForJWT", (user.token = access_token), {
+      .cookie("secretForJWT", (user.token = access_token), {
         maxAge: 1000 * 60 * 60 * 24 * 30,
         httpOnly: true,
       })
