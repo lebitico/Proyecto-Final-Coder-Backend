@@ -15,7 +15,7 @@ export default class CategoryRepository {
   async getCategorys() {
     try {
       const category = await this.categoryDAO.getCategorys();
-      return category.map((category) => new CategoryDTO(category));
+      return category.map((category) => new categoryDTO(category));
     } catch (error) {
       throw error;
     }
@@ -23,7 +23,7 @@ export default class CategoryRepository {
   async getCategoryById(id) {
     try {
       const category = await this.categoryDAO.getCategoryById(id);
-      return new CategoryDTO(category);
+      return new categoryDTO(category);
     } catch (error) {
       throw error;
     }
@@ -31,7 +31,7 @@ export default class CategoryRepository {
   async updateCategory(id, data) {
     try {
       const category = await this.categoryDAO.updateCategory(id, data);
-      return new CategoryDTO(category);
+      return new categoryDTO(category);
     } catch (error) {
       throw error;
     }
@@ -40,7 +40,7 @@ export default class CategoryRepository {
   async categoryPaginate(page, limit) {
     try {
       const category = await this.categoryDAO.categoryPaginate(page, limit);
-      return category.map((category) => new CategoryDTO(category));
+      return category.map((category) => new categoryDTO(category));
     } catch (e) {
       throw e;
     }

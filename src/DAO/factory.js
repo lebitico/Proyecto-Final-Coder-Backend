@@ -12,8 +12,6 @@ export let Message
 export let Ticket
 export let Session
 
-//console.log(`Persistence with ${config.PERSISTENCE}`)
-
 switch (config.PERSISTENCE) {
     case 'MONGO':
         mongoose.connect(config.DBURL, {
@@ -26,7 +24,6 @@ switch (config.PERSISTENCE) {
         .catch((err) => CustomError.createError(`Error in MongoDB connection`, err))
 
         const { default: UserMongo } = await import('./mongo/users.mongo.js')
-        const { default: OrderMongo } = await import('./mongo/orders.mongo.js')
         const { default: ProductMongo } = await import('./mongo/products.mongo.js')
         const { default: CartMongo } = await import('./mongo/carts.mongo.js')
 
@@ -36,7 +33,6 @@ switch (config.PERSISTENCE) {
         const { default: SessionMongo } = await import('./mongo/users.mongo.js')
 
         User = UserMongo
-        Order = OrderMongo
         Product = ProductMongo
         Cart = CartMongo
         Category = CategoryMongo

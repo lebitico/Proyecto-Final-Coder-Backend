@@ -1,16 +1,16 @@
 import CartDTO from "../DAO/DTO/carts.dto.js";
 import mongoose from "mongoose";
 import { v4 } from "uuid";
-import CustomError from "../errors/CustomError.js";
-import EErrors from "../errors/enums.js";
+import CustomError from "../utils/errors/CustomError.js";
+import EErrors from "../utils/errors/enums.js";
 import {
   generateCartErrorInfo,
   generateProductsErrorInfo,
   generateTicketErrorInfo,
-} from "../errors/info.js";
+} from "../utils/errors/info.js";
 import moment from "moment";
-import nodemailer from "nodemailer";
-import config from "../config/config.js";
+//import nodemailer from "nodemailer";
+//import config from "../config/config.js";
 
 export default class CartRepository {
   constructor(cartDAO, userDAO, productDAO, ticketDAO) {
@@ -24,11 +24,111 @@ export default class CartRepository {
     return await this.dao.getCarts();
   };
   getCartById = async (cid) => {
-    return await this.dao.getCartById(cid);
+    try {
+      return await this.dao.getCartById(cid);
+    } catch (error) {
+      throw error;
+    }
+  };
+  getCartUserById = async (user) => {
+    try {
+      const userBD = await this.userDAO.getUserByEmail(user.email);
+      let cart = userBD.cartId[0];
+      if (!cart) {
+        CustomError.createError({
+          name: "Error",
+          message: "Cart not exists",
+          code: EErrors.CART_NOT_FOUND,
+          info: generateCartErrorInfo(cart),
+        });
+      }
+      const cartID = new mongoose.Types.ObjectId(cart);
+      cart = await this.cartDAO.getCartById(cartID);
+      let total = 0;
+      cart.products.forEach((product) => {
+        const subtotal = product.pid.price * product.quantity;
+        product.total = subtotal;
+        total = total + subtotal;
+      });
+      return { cart, total };
+    } catch (error) {
+      throw error;
+    }
+  };
+  getTicketCartUserById = async (user) => {
+    try {
+      const userDB = await this.userDAO.getUserById(user);
+      let { cart, total } = await this.getCartUserById(userDB);
+      let products = [];
+      if (cart.products.length !== 0) {
+        for (const p of cart.products) {
+          try {
+            const product = await this.productDAO.getProductById(
+              p.pid._id.toString()
+            );
+            if (product.stock >= p.quantity) {
+              product.stock -= p.quantity;
+              cart = await this.clearCart(cart._id, product._id);
+              const pid = product._id;
+              const quantity = p.quantity;
+              products.push({ pid, quantity });
+              await this.cartDAO.updateCartById(cart._id, cart);
+              await this.productDAO.updateProduct(product._id, product);
+            } else if (product.stock < p.quantity) {
+              const stock = product.stock;
+              const dif = p.quantity - stock;
+              product.stock -= stock;
+              p.quantity -= stock;
+              total -= dif * product.price;
+              const pid = product._id;
+              const quantity = stock;
+              products.push({ pid, quantity });
+              await this.productDAO.updateProduct(product._id, product);
+              await this.cartDAO.updateCartById(cart._id, cart);
+            }
+          } catch (e) {
+            // Manejo de errores específicos para cada iteración
+            throw CustomError.createError({
+              name: "Error",
+              message: "STOCK_NOT_AVAILABLE",
+              code: EErrors.STOCK_NOT_AVAILABLE,
+              info: generateCartErrorInfo(cart),
+            });
+          }
+        }
+        const ticket = {
+          code: v4(),
+          purchase_datetime: moment().format("YYYY-MM-DD HH:mm:ss"),
+          amount: total,
+          purcharser: userDB.email,
+          products: products,
+          status: "pending",
+        };
+        const ticketCreate = await this.ticketDAO.addTicket(ticket);
+        const ticketId = ticketCreate._id;
+        userDB.ticketId.push(ticketCreate._id);
+        await this.userDAO.updateUser(userDB._id, userDB);
+        return ticketCreate;
+      } else {
+        // Handle case where cart has no products
+        CustomError.createError({
+          name: "Error",
+          message: "Cart not products",
+          code: EErrors.NOT_PRODUCTS_TICKET,
+          info: generateTicketErrorInfo(),
+        });
+      }
+    } catch (e) {
+      throw e;
+    }
   };
   createCarts = async (cart) => {
-    const cartToInsert = new CartDTO(cart);
-    return await this.dao.createCarts(cartToInsert);
+    try {
+      const cartToInsert = new CartDTO(cart);
+      return await this.dao.createCarts(cartToInsert);
+    } catch (error) {
+      throw error;
+    }
   };
   updateCarts = async (cid, cartUpdate) => {
     const cart = await this.getCartById(cid);
@@ -38,30 +138,6 @@ export default class CartRepository {
 
     return await this.dao.updateCarts(cid, cartUpdate);
   };
-  purchaseCarts = async (cid, userMail) => {
-    const cart = await this.getCartById(cid);
-    if (!cart) {
-      throw new Error("no existe el carrito");
-    }
-    return await this.dao.purchaseCarts(cart, userMail);
-  };
-  deleteOneCarts = async (cid, cartUpdate) => {
-    const cart = await this.getCartById(cid);
-    if (!cart) {
-      throw new Error("no existe el carrito");
-    }
-
-    return await this.dao.deleteOneCarts(cid, cartUpdate);
-  };
-  deleteCarts = async (cid) => {
-    const cart = this.getCartById(cid);
-    if (!cart) {
-      throw new Error("no existe el carrito");
-    }
-
-    return await this.dao.deleteCarts(cid, cart);
-  };
-
   addProductCartByID = async (pid, quantity, user) => {
     try {
       if (user.rol === "admin") throw new Error("No authorized");
@@ -109,7 +185,62 @@ export default class CartRepository {
       throw error;
     }
   };
+  purchaseCarts = async (cid, userMail) => {
+    const cart = await this.getCartById(cid);
+    if (!cart) {
+      throw new Error("no existe el carrito");
+    }
+    return await this.dao.purchaseCarts(cart, userMail);
+  };
+  updateCartById = async (id, data) => {
+    try {
+      const cart = await this.cartDAO.updateCartById(id, data);
+      return cart;
+    } catch (error) {
+      throw error;
+    }
+  };
+  updateProductCartById = async (cid, pid, quantity) => {
+    try {
+      let cart = await this.cartDAO.getCartById(cid);
+      const product = cart.products.find((product) => {
+        product.pid._id.toString() == pid.toString();
+      });
+      if (!product) {
+        cart.products.push({ pid, quantity });
+      }
+      product.quantity = quantity;
+      await this.cartDAO.updateCartById(cid, cart);
+      return new cart();
+    } catch (error) {
+      throw error;
+    }
+  };
+  deleteOneCarts = async (cid, cartUpdate) => {
+    const cart = await this.getCartById(cid);
+    if (!cart) {
+      throw new Error("no existe el carrito");
+    }
 
+    return await this.dao.deleteOneCarts(cid, cartUpdate);
+  };
+  deleteCarts = async (cid) => {
+    const cart = this.getCartById(cid);
+    if (!cart) {
+      throw new Error("no existe el carrito");
+    }
+
+    return await this.dao.deleteCarts(cid, cart);
+  };
+
+  deleteCartById = async (id) => {
+    try {
+      const cart = await this.cartDAO.deleteCartById(id);
+      return new CartDTO(cart);
+    } catch (error) {
+      throw error;
+    }
+  };
   deleteProductCartById = async (cid, pid) => {
     try {
       const cartId = cid.toString();
@@ -182,100 +313,6 @@ export default class CartRepository {
       await cart.save();
     } catch (error) {
       throw error;
-    }
-  };
-
-  getCartUserById = async (user) => {
-    try {
-      const userBD = await this.userDAO.getUserByEmail(user.email);
-      let cart = userBD.cartId[0];
-      if (!cart) {
-        CustomError.createError({
-          name: "Error",
-          message: "Cart not exists",
-          code: EErrors.CART_NOT_FOUND,
-          info: generateCartErrorInfo(cart),
-        });
-      }
-      const cartID = new mongoose.Types.ObjectId(cart);
-      cart = await this.cartDAO.getCartById(cartID);
-      let total = 0;
-      cart.products.forEach((product) => {
-        const subtotal = product.pid.price * product.quantity;
-        product.total = subtotal;
-        total = total + subtotal;
-      });
-      return { cart, total };
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  getTicketCartUserById = async (user) => {
-    try {
-      const userDB = await this.userDAO.getUserById(user);
-      let { cart, total } = await this.getCartUserById(userDB);
-      let products = [];
-      if (cart.products.length !== 0) {
-        for (const p of cart.products) {
-          try {
-            const product = await this.productDAO.getProductById(
-              p.pid._id.toString()
-            );
-            if (product.stock >= p.quantity) {
-              product.stock -= p.quantity;
-              cart = await this.clearCart(cart._id, product._id);
-              const pid = product._id;
-              const quantity = p.quantity;
-              products.push({ pid, quantity });
-              await this.cartDAO.updateCartById(cart._id, cart);
-              await this.productDAO.updateProduct(product._id, product);
-            } else if (product.stock < p.quantity) {
-              const stock = product.stock;
-              const dif = p.quantity - stock;
-              product.stock -= stock;
-              p.quantity -= stock;
-              total -= dif * product.price;
-              const pid = product._id;
-              const quantity = stock;
-              products.push({ pid, quantity });
-              await this.productDAO.updateProduct(product._id, product);
-              await this.cartDAO.updateCartById(cart._id, cart);
-            }
-          } catch (e) {
-            // Manejo de errores específicos para cada iteración
-            throw CustomError.createError({
-              name: "Error",
-              message: "STOCK_NOT_AVAILABLE",
-              code: EErrors.STOCK_NOT_AVAILABLE,
-              info: generateCartErrorInfo(cart),
-            });
-          }
-        }
-        const ticket = {
-          code: v4(),
-          purchase_datetime: moment().format("YYYY-MM-DD HH:mm:ss"),
-          amount: total,
-          purcharser: userDB.email,
-          products: products,
-          status: "pending",
-        };
-        const ticketCreate = await this.ticketDAO.addTicket(ticket);
-        const ticketId = ticketCreate._id;
-        userDB.ticketId.push(ticketCreate._id);
-        await this.userDAO.updateUser(userDB._id, userDB);
-        return ticketCreate;
-      } else {
-        // Handle case where cart has no products
-        CustomError.createError({
-          name: "Error",
-          message: "Cart not products",
-          code: EErrors.NOT_PRODUCTS_TICKET,
-          info: generateTicketErrorInfo(),
-        });
-      }
-    } catch (e) {
-      throw e;
     }
   };
 }

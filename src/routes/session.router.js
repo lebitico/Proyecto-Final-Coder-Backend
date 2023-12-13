@@ -9,7 +9,7 @@ import {
   restart,
   validPassword,
   getProfile,
-  logoutUser
+  logoutUser,
 } from "../controllers/session.controllers.js";
 import passport from "passport";
 const router = Router();
@@ -21,11 +21,12 @@ router.post("/register", registerUser);
 router.get("/login", (req, res) => {
   if (Object.keys(req.cookies).length != 0) return res.redirect("/profile");
   res.render("login", {});
-}); 
+});
 
 router.get(
   "/logout",
-  passport.authenticate("jwt", { session: false }),logoutUser
+  passport.authenticate("jwt", { session: false }),
+  logoutUser
 );
 
 router.get(
@@ -40,7 +41,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   getUserCurrent
-); 
+);
 
 router.get("/resetPassword", resetearPassword);
 

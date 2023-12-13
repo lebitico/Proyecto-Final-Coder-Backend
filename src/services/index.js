@@ -1,6 +1,5 @@
 import {
   User,
-  Order,
   Product,
   Cart,
   Category,
@@ -10,7 +9,6 @@ import {
 } from "../DAO/factory.js";
 
 import UserRepository from "./users.repository.js";
-//import OrderRepository from "./orders.repository.js";
 import ProductRepository from "./products.repository.js";
 import CartRepository from "./carts.repository.js";
 
@@ -22,7 +20,6 @@ import PaymentRepository from "./payments.repository.js";
 
 export const userService = new UserRepository(new User(), new Cart(),
 new Ticket());
-//export const orderService = new OrderRepository(new Order());
 export const productService = new ProductRepository(new Product(), new User());
 export const cartService = new CartRepository(new Cart(),  new User(),
 new Product(),

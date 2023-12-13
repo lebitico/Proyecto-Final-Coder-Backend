@@ -1,5 +1,4 @@
 import Stripe from "stripe";
-//import { STRIPE_PRIVATE_KEY } from "../config/config.js";
 import { paymentService } from "../services/index.js";
 
 export const creacteCheckout = async (req, res) => {
@@ -8,7 +7,13 @@ export const creacteCheckout = async (req, res) => {
     const session = await paymentService.creacteCheckout(ticketId);
     return res.redirect(session.url);
   } catch (e) {
-    return res.send({ error: "error", message: "Ya ha sido pagado el ticket" });
+    const message = {
+      message: "Ya ha sido pagado el ticket",
+    };
+    const URI = {
+      URI: "/api/products/products",
+    };
+    res.status(200).render("popUp", { message, URI });
   }
 };
 
@@ -18,16 +23,34 @@ export const sucessPayment = async (req, res) => {
     const succes = await paymentService.sucessPayment(ticketId);
     return res.render("sucess", succes);
   } catch (e) {
-    throw e;
+    const message = {
+      message: e,
+    };
+    const URI = {
+      URI: "/api/products/products",
+    };
+    res.status(200).render("popUp", { message, URI });
   }
 };
 
 export const CancellPayment = async (req, res) => {
-  try{
+  try {
     const ticketId = req.query.ticketId;
     const sucess = await paymentService.cancellPayment(ticketId);
-    return res.redirect("/api/products");
-  }catch(e){
-    throw e;
+    const message = {
+      message: "Tu compra ha sido cancelada con exito.",
+    };
+    const URI = {
+      URI: "/api/products/products",
+    };
+    res.status(500).render("popUp", { message, URI });
+  } catch (e) {
+    const message = {
+      message: e,
+    };
+    const URI = {
+      URI: "/api/products/products",
+    };
+    res.status(200).render("popUp", { message, URI });
   }
 };

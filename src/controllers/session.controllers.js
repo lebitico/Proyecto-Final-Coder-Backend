@@ -1,7 +1,7 @@
-import { sessionRepository } from "../services/index.js"
-import { generateToken } from "../utils/utils.js"
-import jwt from "jsonwebtoken"
-import Swal from "sweetalert2"
+import { sessionRepository } from "../services/index.js";
+import { generateToken } from "../utils/utils.js";
+import jwt from "jsonwebtoken";
+import Swal from "sweetalert2";
 
 export const loginUser = async (req, res) => {
   try {
@@ -116,7 +116,7 @@ export const getProfile = async (req, res) => {
 };
 
 export const logoutUser = async (req, res) => {
-  const {user} = req.user;
+  const { user } = req.user;
   await sessionRepository.setDateController(user);
   res.clearCookie("keyCookieForJWT").redirect("/api/session/login");
 };

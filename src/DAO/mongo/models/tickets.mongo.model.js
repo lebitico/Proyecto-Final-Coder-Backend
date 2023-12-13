@@ -1,22 +1,30 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+mongoose.set("strictQuery", false);
 
-const TicketModel = mongoose.model ('tickets', new mongoose.Schema({
-    code:  { type: String,
-    unique: true
+const TicketModel = mongoose.model(
+  "tickets",
+  new mongoose.Schema({
+    code: { type: String, required: true, unique: true },
+    purchase_datetime: {
+      type: Date,
+      required: true,
     },
-    purchase_datetime: String,
-    amount:Number,  //investigatar datastamp
-    purchaser:String,
-    //{ timestamps: true }
+    amount: {
+      type: Number,
+      required: true,
+    },
+    purcharser: {
+      type: String,
+      required: true,
+    },
     products: [
-        {
-          pid: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
-          quantity: Number,
-        },
-      ],
+      {
+        pid: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+        quantity: Number,
+      },
+    ],
     status: String,
-})
+  })
+);
 
-)
-
-export default TicketModel
+export default TicketModel;

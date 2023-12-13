@@ -1,7 +1,7 @@
 import {
     getMessages,
     saveMessage,
-  } from "../controllers/messages,controllers.js";
+  } from "../controllers/messages.controllers.js";
   import { Router } from "express";
   import passport from "passport";
   

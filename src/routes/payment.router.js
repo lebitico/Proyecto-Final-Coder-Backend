@@ -4,7 +4,7 @@ import {
   creacteCheckout,
   sucessPayment,
   CancellPayment,
-} from "../controllers/payment.controllers.js";
+} from "../controllers/payment.controller.js";
 
 const router = Router();
 

@@ -4,17 +4,11 @@ import {
   userPremium,
   uploadDocuments,
   uploadDocumentView,
+  getUsers,
   inactiveUser,
   deleteUser,
   getTicketUser,
-  getCurrentUser,
   deleteUserById,
-  getUsers,
-  createUsers,
-  getUserByID,
-  login,
-  logout,
-  register,
 } from "../controllers/users.controller.js";
 
 import upload from "../middlewares/multer.js";
@@ -63,16 +57,17 @@ router.get(
   getCurrentUser
 );
 router.get("/", passport.authenticate("jwt", { session: false }), getUsers);
-router.post("/login", passport.authenticate("login"), login);
-router.post("/logout", logout);
-router.post("/register", passport.authenticate("register"), register);
-router.get("/:uid", getUserByID);
-router.delete("/:uid", deleteUserById);
 
 router.delete(
   "/",
   passport.authenticate("jwt", { session: false }),
   inactiveUser
+);
+
+router.get(
+  "/delete/:uid",
+  passport.authenticate("jwt", { session: false }),
+  deleteUserById
 );
 
 export default router;

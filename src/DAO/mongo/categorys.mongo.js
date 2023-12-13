@@ -1,4 +1,4 @@
-import CategoryModel from "./models/category.mongo.model.js";
+import CategoryModel from "./models/categorys.mongo.model.js";
 
 export default class CategorysMongo {
   async addCategory(data) {

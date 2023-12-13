@@ -12,17 +12,15 @@ const storage = multer.diskStorage({
       uploadPath = `uploads/${uid}/products`;
     } else if (file.fieldname === "documentDNI") {
       uploadPath = `uploads/${uid}/documentsDNI`;
-    
-  } else if (file.fieldname === "comprobanteDomicilio") {
-    uploadPath = `uploads/${uid}/comprobanteDomicilio`;
-  } else if (file.fieldname === "comprobanteEstadoCuenta") {
-    uploadPath = `uploads/${uid}/comprobanteEstadoCuenta`;
-  }
+    } else if (file.fieldname === "comprobanteDomicilio") {
+      uploadPath = `uploads/${uid}/comprobanteDomicilio`;
+    } else if (file.fieldname === "comprobanteEstadoCuenta") {
+      uploadPath = `uploads/${uid}/comprobanteEstadoCuenta`;
+    }
 
-  if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
-  }
-
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
 
     cb(null, uploadPath);
   },
@@ -31,6 +29,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage , createParentPath: true});
+const upload = multer({ storage: storage, createParentPath: true });
 
 export default upload;

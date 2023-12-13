@@ -1,8 +1,8 @@
-import { createHash, isValidPassword } from "../utils.js";
-import UserDTO from "../DTO/user.dto.js";
-import CustomError from "../errors/CustomError.js";
-import EErrors from "../errors/enums.js";
-import { generateUserErrorInfo } from "../errors/info.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
+import UserDTO from "../DAO/DTO/users.dto.js";
+import CustomError from "../utils/errors/CustomError.js";
+import EErrors from "../utils/errors/enums.js";
+import { generateUserErrorInfo } from "../utils/errors/info.js";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
