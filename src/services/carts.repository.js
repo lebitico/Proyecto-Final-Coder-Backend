@@ -9,8 +9,6 @@ import {
   generateTicketErrorInfo,
 } from "../utils/errors/info.js";
 import moment from "moment";
-//import nodemailer from "nodemailer";
-//import config from "../config/config.js";
 
 export default class CartRepository {
   constructor(cartDAO, userDAO, productDAO, ticketDAO) {

@@ -24,9 +24,6 @@ import { Server } from "socket.io";
 import MongoStore from "connect-mongo";
 
 import usersRouter from './routes/users.router.js'
-//import ordersRouter from './routes/orders.router.js'
-//import cartsRouter from './routes/carts.router.js'
-//import productsRouter from './routes/products.router.js'
 import chatRouter from './routes/chat.router.js'
 import viewsRouter from "./routes/view.router.js";
 
@@ -38,7 +35,7 @@ import { productService } from "./services/index.js";
 import paymentRouter from "./routes/payment.router.js";
 
 
-const PORT = config.port;
+const PORT = config.PORT;
 const app = express()
 
 // Configurar los motores de plantilla

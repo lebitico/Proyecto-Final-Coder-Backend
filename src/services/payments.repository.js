@@ -10,7 +10,7 @@ import Stripe from "stripe";
 import config from "../config/config.js";
 import nodemailer from "nodemailer";
 
-const stripe = new Stripe(config.keyPrivate);
+const stripe = new Stripe(config.STRIPE_PRIVATE_KEY);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
