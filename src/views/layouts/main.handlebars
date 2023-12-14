@@ -1,137 +1,30 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Login</title>
-    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-   
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-<style>
-	body {
-		
-	}
-    .form-inline {
-        display: inline-block;
-    }
-	.navbar {		
-		background: #fff;
-		padding-left: 16px;
-		padding-right: 16px;
-		border-bottom: 1px solid #d6d6d6;
-		box-shadow: 0 0 4px rgba(0,0,0,.1);
-	}
-	.nav img {
-		border-radius: 50%;
-		width: 36px;
-		height: 36px;
-		margin: -8px 0;
-		float: left;
-		margin-right: 10px;
-	}
-	.navbar .navbar-brand {
-		color: #555;
-		padding-left: 0;
-		padding-right: 50px;
-		font-family: 'Merienda One', sans-serif;
-	}
-	.navbar .navbar-brand i {
-		font-size: 20px;
-		margin-right: 5px;
-	}
-	
-	.navbar ul li i {
-		font-size: 18px;
-	}
-	.navbar .dropdown-menu i {
-		font-size: 16px;
-		min-width: 22px;
-	}
-	.navbar .dropdown.open > a {
-		background: none !important;
-	}
-	.navbar .dropdown-menu {
-		border-radius: 1px;
-		border-color: #e5e5e5;
-		box-shadow: 0 2px 8px rgba(0,0,0,.05);
-	}
-	.navbar .dropdown-menu li a {
-		color: #777;
-		padding: 8px 20px;
-		line-height: normal;
-	}
-	.navbar .dropdown-menu li a:hover, .navbar .dropdown-menu li a:active {
-		color: #333;
-	}	
-	.navbar .dropdown-menu .material-icons {
-		font-size: 21px;
-		line-height: 16px;
-		vertical-align: middle;
-		margin-top: -2px;
-	}
-	.navbar .badge {
-		background: #f44336;
-		font-size: 11px;
-		border-radius: 20px;
-		position: absolute;
-		min-width: 10px;
-		padding: 4px 6px 0;
-		min-height: 18px;
-		top: 5px;
-	}
-	.navbar ul.nav li a.notifications, .navbar ul.nav li a.messages {
-		position: relative;
-		margin-right: 10px;
-	}
-	.navbar ul.nav li a.messages {
-		margin-right: 20px;
-	}
-	.navbar a.notifications .badge {
-		margin-left: -8px;
-	}
-	.navbar a.messages .badge {
-		margin-left: -4px;
-	}	
-	.navbar .active a, .navbar .active a:hover, .navbar .active a:focus {
-		background: transparent !important;
-	}
-	@media (min-width: 1200px){
-		.form-inline .input-group {
-			width: 300px;
-			margin-left: 30px;
-		}
-	}
-	@media (max-width: 1199px){
-		.form-inline {
-			display: block;
-			margin-bottom: 10px;
-		}
-		.input-group {
-			width: 100%;
-		}
-	}
-</style>
-
-
-
-</head>
-<body>
-    <a href="/">Login</a> <br>
-    <a href="/register">Register</a> <br>
-    <a href="/profile">Profile</a> <br>
-    <hr>
-
-
-    {{{body}}}
-
-    <!-- Scritps -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcommerceGerman</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/normalice.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  {{{body}}}
+  {{>footer}}
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
 </html>
