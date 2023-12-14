@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha 'src/test/superTestMarco.test.js'",
-    "dev": "nodemon src/app.js",
+    "start": "nodemon src/app.js",
     "testCarts": "npx mocha --experimental-vm-modules src/test/Carts.test.js",
     "testSession": "npx mocha --experimental-vm-modules src/test/Session.test.js",
     "testProducts": "npx mocha --experimental-vm-modules src/test/Products.test.js"
