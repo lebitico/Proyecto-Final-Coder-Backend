@@ -1,11 +1,11 @@
-import { sessionRepository } from "../services/index.js";
-import { generateToken } from "../utils/utils.js";
+import { sessionService } from "../services/index.js";
+import { generateToken } from "../utils.js";
 import jwt from "jsonwebtoken";
 import Swal from "sweetalert2";
 
 export const loginUser = async (req, res) => {
   try {
-    const user = await sessionRepository.loginUser(req.body);
+    const user = await sessionService.loginUser(req.body);
     if (user == null) {
       req.logger.error("Error al loguear el usuario");
       return res.redirect("/login");
@@ -25,7 +25,7 @@ export const loginUser = async (req, res) => {
 
 export const registerUser = async (req, res) => {
   try {
-    const user = await sessionRepository.registerUser(req.body);
+    const user = await sessionService.registerUser(req.body);
     req.logger.info("Usuario registrado");
     res.redirect("/api/session/login");
   } catch (error) {
@@ -36,7 +36,7 @@ export const registerUser = async (req, res) => {
 
 export const getUserCurrent = async (req, res) => {
   try {
-    const user = await sessionRepository.getUserCurrent(req.user.user);
+    const user = await sessionService.getUserCurrent(req.user.user);
     req.logger.info("Usuario obtenido");
     return res.send({ status: "success", payload: user });
   } catch (error) {
@@ -53,7 +53,7 @@ export const verificarUser = async (req, res) => {
         req.logger.fatal("Token de verificacion no válido");
         res.status(500).json({ message: "Token de verificacion no válido" });
       }
-      await sessionRepository.verificarUser(decoded);
+      await sessionService.verificarUser(decoded);
       res.render("verificar", {});
     });
   } catch (error) {
@@ -73,7 +73,7 @@ export const resetearPassword = async (req, res) => {
 
 export const restart = async (req, res) => {
   const email = req.body.email;
-  await sessionRepository.validUserSentEmailPassword(email);
+  await sessionService.validUserSentEmailPassword(email);
   Swal.fire({
     title: "Correo enviado",
     text: "Correo enviado con las instrucciones para restablecer la contraseña",
@@ -101,7 +101,7 @@ export const validPassword = async (req, res) => {
     const password = req.body.newPassword;
     const email = req.body.email;
     const confirmpassword = req.body.confirmPassword;
-    await sessionRepository.resetPasswordForm(email, password, confirmpassword);
+    await sessionService.resetPasswordForm(email, password, confirmpassword);
     res.render("login", {});
   } catch (error) {
     req.logger.fatal("Error al validar la contraseña");
@@ -111,12 +111,12 @@ export const validPassword = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   const { user } = req.user;
-  const userDB = await sessionRepository.getUserByEmail(user.email);
+  const userDB = await sessionService.getUserByEmail(user.email);
   res.status(200).render("profile", userDB);
 };
 
 export const logoutUser = async (req, res) => {
   const { user } = req.user;
-  await sessionRepository.setDateController(user);
+  await sessionService.setDateController(user);
   res.clearCookie("keyCookieForJWT").redirect("/api/session/login");
 };

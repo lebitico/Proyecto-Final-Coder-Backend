@@ -1,10 +1,10 @@
 //import PaymentDTO from "../DAO/DTO/payment.dto.js";
 import {
   paymentService,
-  ticketRepository,
-  cartRepository,
-  userRepository,
-  productRepository,
+  ticketService,
+  cartService,
+  userService,
+  productService,
 } from "../services/index.js";
 import Stripe from "stripe";
 import config from "../config/config.js";
@@ -78,18 +78,18 @@ export default class PaymentRepository {
 
   cancellPayment = async (ticketId) => {
     const ticket = await this.ticketDAO.getTicketById(ticketId);
-    const user = await userRepository.getUserByEmail(ticket.purcharser);
-    const cartUser = await cartRepository.getCartUserById(user);
+    const user = await userService.getUserByEmail(ticket.purcharser);
+    const cartUser = await cartService.getCartUserById(user);
     for (const product of ticket.products) {
       const pid = product.pid._id;
-      const productDB = await productRepository.getProductById(pid);
+      const productDB = await productService.getProductById(pid);
       const quantity = product.quantity;
       productDB.stock += quantity;
-      await productRepository.updateProduct(pid, productDB);
+      await productService.updateProduct(pid, productDB);
       cartUser.cart.products.push({ pid, quantity });
       const cid = cartUser.cart._id;
       const cart = cartUser.cart;
-      await cartRepository.updateCartById(cid, cart);
+      await cartService.updateCartById(cid, cart);
     }
     ticket.status = "canceled";
     await this.ticketDAO.updateTicket(ticket._id, ticket);

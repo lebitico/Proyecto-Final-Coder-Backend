@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { generateToken, generateProducts } from "../utils/utils.js";
+import { generateToken, generateProducts } from "../utils.js";
 import { getProfile } from "../controllers/session.controllers.js";
 
 const router = Router();

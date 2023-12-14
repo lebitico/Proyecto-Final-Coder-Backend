@@ -1,13 +1,12 @@
 import { userService } from "../services/index.js";
-import { generateToken } from "../utils/utils.js";
+import { generateToken } from "../utils.js";
 import { use } from "chai";
-import { userRepository } from "../services/index.js";
 
 export const getUsers = async (req, res) => {
   try {
     const { user } = req.user;
     if (user.rol === "admin") {
-      const users = await userRepository.getUsers();
+      const users = await userService.getUsers();
       res.render("users", { users });
     } else {
       const message = {
@@ -43,7 +42,7 @@ export const getUserByID = async (req, res) => {
 export const getTicketUser = async (req, res) => {
   try {
     const id = req.params.uid;
-    const tickets = await userRepository.getTicketUserById(id);
+    const tickets = await userService.getTicketUserById(id);
     res.render("tickets", { tickets });
   } catch (e) {
     const message = {
@@ -98,7 +97,7 @@ export const deleteUserById = async (req, res) => {
 
   try {
     const { uid } = req.params;
-    const deleteUser = await userRepository.deleteUser(uid);
+    const deleteUser = await userService.deleteUser(uid);
     const message = {
       message: "Usuario eliminado con exito",
     };
@@ -125,7 +124,7 @@ export const getCurrentUser = async (req, res) => {
 export const userPremium = async (req, res) => {
   try {
     const uid = req.params.uid;
-    const userDB = await userRepository.userPremium(uid);
+    const userDB = await userService.userPremium(uid);
     res.render("profile", userDB);
   } catch (error) {
     req.logger.fatal("Error al cambiar a usuario premium");
@@ -143,7 +142,7 @@ export const uploadDocuments = async (req, res) => {
   try {
     const uid = req.params.uid;
     const files = req.files;
-    const userDB = await userRepository.uploadDocuments(uid, files);
+    const userDB = await userService.uploadDocuments(uid, files);
     const message = {
       message: "Felicidades, sus documentos han sido subidos con éxito",
     };
@@ -164,7 +163,7 @@ export const uploadDocuments = async (req, res) => {
 
 export const uploadDocumentView = async (req, res) => {
   try {
-    const user = await userRepository.getUserByEmail(req.user.user.email);
+    const user = await userService.getUserByEmail(req.user.user.email);
     const uid = user._id;
     res.status(200).render("uploadDocuments", { uid });
   } catch (e) {
@@ -180,7 +179,7 @@ export const uploadDocumentView = async (req, res) => {
 
 export const inactiveUser = async (req, res) => {
   try {
-    const userDrop = await userRepository.inactiveUsersDrop();
+    const userDrop = await userService.inactiveUsersDrop();
     res.status(200).send(userDrop);
   } catch (e) {
     const message = {

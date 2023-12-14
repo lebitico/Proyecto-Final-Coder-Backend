@@ -1,7 +1,7 @@
 import {
   productService,
-  categoryRepository,
-  userRepository,
+  categoryService,
+  userService,
 } from "../services/index.js";
 import CustomError from "../utils/errors/CustomError.js";
 import EErrors from "../utils/errors/enums.js";
@@ -10,7 +10,7 @@ import { generateCartErrorInfo } from "../utils/errors/info.js";
 export const getProducts = async (req, res) => {
   try {
     const { user } = req.user;
-    const userDB = await userRepository.getUserByEmail(user.email);
+    const userDB = await userService.getUserByEmail(user.email);
     const first_name = userDB.first_name;
     const last_name = userDB.last_name;
     const rol = userDB.rol;
@@ -29,7 +29,7 @@ export const getProducts = async (req, res) => {
     } else {
       products = await productService.getProducts();
     }
-    const category = await categoryRepository.getCategorys();
+    const category = await categoryService.getCategorys();
     const productsPrev = products.productsPrev;
     const productsNext = products.productsNext;
     const productsPrevValidate = products.paginaAnterior;
@@ -137,7 +137,7 @@ export const deleteProducts = async (req, res) => {
 export const getProductsRealTime = async (req, res) => {
   try {
     const { user } = req.user;
-    const userDB = await userRepository.getUserByEmail(user.email);
+    const userDB = await userService.getUserByEmail(user.email);
     const first_name = userDB.first_name;
     const last_name = userDB.last_name;
     const rol = userDB.rol;
@@ -156,7 +156,7 @@ export const getProductsRealTime = async (req, res) => {
     } else {
       products = await productRepository.getProducts();
     }
-    const category = await categoryRepository.getCategorys();
+    const category = await categoryService.getCategorys();
     if (userDB.rol === "admin" || userDB.rol === "premium") {
       const productsPrev = products.productsPrev;
       const productsNext = products.productsNext;

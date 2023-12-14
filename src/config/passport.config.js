@@ -5,13 +5,13 @@ import passportJWT from "passport-jwt";
 import GitHubStrategy from "passport-github";
 import GoogleStrategy from "passport-google-oauth20";
 import config from "../config/config.js";
-import { UserRepository } from "../services/index.js";
+import { userService } from "../services/index.js";
 import {
   createHash,
   isValidPassword,
   extractCookie,
   generateToken,
-} from "../utils/utils.js";
+} from "../utils.js";
 
 const LocalStrategy = local.Strategy;
 
@@ -24,7 +24,7 @@ const validarUser = async (user, profile) => {
     user.token = token;
     const date = new Date();
     user.last_connection = date;
-    await UserRepository.updateUser(user._id, user);
+    await userService.updateUser(user._id, user);
     return user;
   }
   const date = new Date();
@@ -42,15 +42,11 @@ const validarUser = async (user, profile) => {
     last_connection: date,
     ticketId: [],
   };
-  const result = await UserRepository.createUsers(newUser);
+  const result = await userService.createUsers(newUser);
   const token = generateToken(result);
   result.token = token;
 };
 
-const extractCookie = (req) =>
-  req && req.cookies ? req.cookies["secretForJWT"] : null;
-
-debugger;
 
 const initializePassport = () => {
   passport.use(
@@ -77,7 +73,7 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, cb) => {
         try {
           const email = profile._json.email;
-          const user = await UserRepository.getUserByEmail(email);
+          const user = await userService.getUserByEmail(email);
           const result = await validarUser(user, profile);
           return cb(null, result);
         } catch (e) {
@@ -98,7 +94,7 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           const email = profile._json.email;
-          const user = await UserRepository.getUserByEmail(email);
+          const user = await userService.getUserByEmail(email);
           const result = await validarUser(user, profile);
           return done(null, result);
         } catch (e) {

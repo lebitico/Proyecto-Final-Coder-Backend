@@ -5,13 +5,13 @@ import {
   getCartByUserId,
   updateProductCartById,
   getTicketCartUserById,
-  /*getCarts,
+  getCarts,
   createCarts,
   getCartByID,
   updateCarts,
   deleteOneCarts,
   deleteCarts,
-  purchaseCarts,*/
+  purchaseCarts,
 } from "../controllers/carts.controller.js";
 import passport from "passport";
 
@@ -50,11 +50,7 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   updateProductCartById
 );
-router.get(
-  "/:cid",
-  passport.authenticate("jwt", { session: false }),
-  getCartById
-);
+
 
 router.get(
   "/:cid/purchase",

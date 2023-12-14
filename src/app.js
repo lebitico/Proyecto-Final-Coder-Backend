@@ -8,7 +8,7 @@ import handlebars from 'express-handlebars'
 import path from 'path'
 import exphbs from 'express-handlebars';
 import { fileURLToPath } from 'url'
-import { dirname } from 'path'
+import __dirname from "./utils.js";
 //import __dirname from './utils/utils.js'
 import session from 'express-session'
 import passport from 'passport'
@@ -32,12 +32,9 @@ import viewsRouter from "./routes/view.router.js";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
-import chatRouter from "./routes/chat.router.js";
-import viewsRouter from "./routes/view.router.js";
 import sessionRouter from "./routes/session.router.js";
-import { messageRepository } from "./services/index.js";
-import { productRepository } from "./services/index.js";
-import usersRouter from "./routes/users.router.js";
+import { messageService } from "./services/index.js";
+import { productService } from "./services/index.js";
 import paymentRouter from "./routes/payment.router.js";
 
 
@@ -57,8 +54,8 @@ app.use(cors({ origin: "*" }));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: config.url,
-      dbName: config.dbName,
+      mongoUrl: config.DBURL,
+      dbName: config.DBNAME,
       ttl: process.env.ttl,
     }),
     secret: "CoderSecret",
@@ -94,8 +91,8 @@ const runServer = () => {
   io.on('connection', (socket) => {
     socket.on('new-product', async data => {
       try {
-        // const productRepository.addProduct(data);
-        const products = await productRepository.getProducts();
+        // const productService.addProduct(data);
+        const products = await productService.getProducts();
         await productManager.create(data)
         io.emit('reload-table', products);
       } catch {
@@ -105,17 +102,17 @@ const runServer = () => {
 
     socket.on("delete-product", async (id, email) => {
       try {
-        await productRepository.deleteProduct(id, email);
-        const products = await productRepository.getProducts();
+        await productService.deleteProduct(id, email);
+        const products = await productService.getProducts();
         io.emit("reload-table", products);
       } catch (e) {
         console.log(e);
       }
     });
     socket.on("message", async (data) => {
-      await messageRepository.saveMessage(data);
+      await messageService.saveMessage(data);
       //Envia el back
-      const messages = await messageRepository.getMessages();
+      const messages = await messageService.getMessages();
       io.emit("messages", messages);
     });
     socket.on("disconnect", () => {

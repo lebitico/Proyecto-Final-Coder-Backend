@@ -1,4 +1,4 @@
-import { createHash, isValidPassword } from "../utils/utils.js";
+import { createHash, isValidPassword } from "../utils.js";
 import UserDTO from "../DAO/DTO/users.dto.js";
 import CustomError from "../utils/errors/CustomError.js";
 import EErrors from "../utils/errors/enums.js";
