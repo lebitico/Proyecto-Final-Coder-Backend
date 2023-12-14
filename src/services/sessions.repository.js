@@ -77,7 +77,7 @@ export default class SessionRepository {
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) throw new Error("Error al enviar el mail");
     });
-    return await this.userDAO.createUser(user);
+    return await this.userDAO.createUsers(user);
   }
 
   async getUserCurrent(user) {

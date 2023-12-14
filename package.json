@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "nodemon src/app.js",
     "test": "mocha 'src/test/superTestMarco.test.js'",
     "start": "node src/app.js",
     "testCarts": "npx mocha --experimental-vm-modules src/test/Carts.test.js",

@@ -6,7 +6,7 @@ import { getProfile } from "../controllers/session.controllers.js";
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.render("index", {});
+  res.render("home", {});
 });
 
 router.get("/failregister", async (req, res) => {
