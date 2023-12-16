@@ -37,7 +37,7 @@ export const registerUser = async (req, res) => {
   try {
     const user = await sessionService.registerUser(req.body);
     req.logger.info("Usuario registrado");
-    res.redirect("/api/session/login");
+    res.redirect("/login");
   } catch (error) {
     req.logger.fatal("Error al registrar el usuario");
     res.status(500).json({ error: error.message });

@@ -113,3 +113,17 @@
 {"level":"http","message":"GET /favicon.ico - 13:50:31","timestamp":"2023-12-16T16:50:31.714Z"}
 {"level":"http","message":"POST /api/session/register - 13:51:03","timestamp":"2023-12-16T16:51:03.870Z"}
 {"level":"http","message":"GET /favicon.ico - 13:51:07","timestamp":"2023-12-16T16:51:07.363Z"}
+{"level":"http","message":"POST /api/session/register - 14:00:43","timestamp":"2023-12-16T17:00:43.349Z"}
+{"level":"info","message":"Usuario registrado","timestamp":"2023-12-16T17:00:47.551Z"}
+{"level":"http","message":"GET /api/session/login - 14:00:47","timestamp":"2023-12-16T17:00:47.566Z"}
+{"level":"http","message":"GET /api/session/login - 14:03:58","timestamp":"2023-12-16T17:03:58.993Z"}
+{"level":"http","message":"GET /api/session/login - 14:04:01","timestamp":"2023-12-16T17:04:01.438Z"}
+{"level":"http","message":"GET /login - 14:04:15","timestamp":"2023-12-16T17:04:15.931Z"}
+{"level":"http","message":"GET /favicon.ico - 14:04:16","timestamp":"2023-12-16T17:04:16.332Z"}
+{"level":"http","message":"POST /api/session/login - 14:04:40","timestamp":"2023-12-16T17:04:40.071Z"}
+{"level":"http","message":"GET /favicon.ico - 14:04:40","timestamp":"2023-12-16T17:04:40.593Z"}
+{"level":"http","message":"GET /favicon.ico - 14:04:42","timestamp":"2023-12-16T17:04:42.628Z"}
+{"level":"http","message":"GET /api/session/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdlcm1hbl9kYW5pZWxpYW5pZXJvQGhvdG1haWwuY29tIiwiaWF0IjoxNzAyNzQ2MDQzLCJleHAiOjE3MDI4MzI0NDN9.Eey0-CsbCdFaYEXd0plReq6cqyDxJ0e8Avh_6V0EIdM - 14:05:24","timestamp":"2023-12-16T17:05:24.976Z"}
+{"level":"http","message":"GET /api/session/login - 14:05:31","timestamp":"2023-12-16T17:05:31.857Z"}
+{"level":"http","message":"GET /login - 14:05:43","timestamp":"2023-12-16T17:05:43.676Z"}
+{"level":"http","message":"POST /api/session/login - 14:06:18","timestamp":"2023-12-16T17:06:18.065Z"}

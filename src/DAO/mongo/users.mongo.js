@@ -10,7 +10,7 @@ export default class User {
   
   createUsers = async (user) => {
     try {
-      if (data) return await UserModel.create(user);
+      if (user) return await UserModel.create(user);
     } catch (error) {
       throw error;
     }
