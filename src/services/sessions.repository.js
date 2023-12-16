@@ -9,6 +9,7 @@ import config from "../config/config.js";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
+  port: 587,
   auth: {
     user: config.USER,
     pass: config.PASS,
@@ -56,6 +57,7 @@ export default class SessionRepository {
   }
 
   async registerUser(user) {
+    console.log(user);
     if (await this.userDAO.getUserByEmail(user.email))
       throw new Error("User already exist");
     const token = jwt.sign({ email: user.email }, "secret", {
@@ -66,7 +68,7 @@ export default class SessionRepository {
       from: config.USER,
       to: user.email,
       subject: "Verificación de tu correo electrónico",
-      html: `Haz click en el siguiente link para verificar tu correo electrónico: ${verificationLink}`,
+      html: `<p>Haz click en el siguiente link para verificar tu correo electrónico: ${verificationLink} </p>`,
     };
     user.password = createHash(user.password);
     if (user.email === "adminCoder@coder.com") {
@@ -74,9 +76,10 @@ export default class SessionRepository {
     } else {
       user.rol = "user";
     }
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) throw new Error("Error al enviar el mail");
-    });
+    const send = await transporter.sendMail(mailOptions)
+      //(err, info) 
+    //  if (err) throw new Error("Error al enviar el mail");
+    
     return await this.userDAO.createUsers(user);
   }
 
@@ -140,6 +143,7 @@ export default class SessionRepository {
   }
 
   async getUserByEmail(email) {
+    console.log(email)
     try {
       const user = await this.userDAO.getUserByEmail(email);
       if (!user) {

@@ -35,7 +35,8 @@ export const getProducts = async (req, res) => {
     const productsPrevValidate = products.paginaAnterior;
     const productsNextValidate = products.paginaSiguiente;
     products = products.productsPaginate;
-    res.render("products", {
+    console.log(products)
+    res.render("home", {
       products,
       category,
       last_name,

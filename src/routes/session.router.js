@@ -18,11 +18,6 @@ router.post("/login", loginUser);
 
 router.post("/register", registerUser);
 
-router.get("/login", (req, res) => {
-  if (Object.keys(req.cookies).length != 0) return res.redirect("/profile");
-  res.render("login", {});
-});
-
 router.get(
   "/logout",
   passport.authenticate("jwt", { session: false }),

@@ -1,7 +1,10 @@
 import { Router } from "express";
 import passport from "passport";
 import { generateToken, generateProducts } from "../utils.js";
-import { getProfile } from "../controllers/session.controllers.js";
+import { getProfile, loginUser, renderLogin, renderRegister } from "../controllers/session.controllers.js";
+import {
+  getProducts, getProductByID
+} from "../controllers/products.controller.js";
 
 const router = Router();
 
@@ -13,10 +16,8 @@ router.get("/failregister", async (req, res) => {
   res.send({ error: "failed" });
 });
 
-router.get("/register", (req, res) => {
-  if (Object.keys(req.cookies)?.length != 0) return res.redirect("/profile");
-  res.render("register", {});
-});
+router.get("/register", renderRegister)
+  
 router.get(
   "/profile",
   passport.authenticate("jwt", { session: false }),
@@ -80,5 +81,20 @@ router.get("/loggerTest", (req, res) => {
   req.logger.warning("Warning");
   res.send("Logger testing");
 });
+
+
+router.get("/login", renderLogin);
+
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  getProducts
+);
+
+router.get(
+  "/:pid",
+  passport.authenticate("jwt", { session: false }),
+  getProductByID
+);
 
 export default router;

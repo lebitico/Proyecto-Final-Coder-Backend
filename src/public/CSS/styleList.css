@@ -1,0 +1,108 @@
+.card {
+    width: 42%;
+    margin: 2%;
+    padding: 1.25rem;
+    display: inline-block;
+    border-radius: 6px;
+    background: #fff;
+    vertical-align: top;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+}
+
+label {
+    display: block;
+    margin: 20px 0;
+    font-weight: 700;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    background: #fef2de;
+    outline: 0;
+}
+
+input[type="submit"] {
+    height: 38px;
+    display: inline-block;
+    padding: 0 10px;
+    letter-spacing: .1em;
+    border: 1px solid #333;
+    background: #333;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button {
+    margin: 0 5px;
+    background: none;
+    border: none;
+    display: none;
+}
+
+button:hover {
+    background: #333;
+    color: #fff;
+}
+
+
+input[type="submit"]:focus {
+    outline: 0;
+}
+
+#clear {
+    background: #f03;
+    border: #f03;
+    float: right;
+    margin-top: 20px;
+}
+
+li {
+    text-transform: capitalize;
+    list-style: none;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid #333;
+}
+
+li:hover > button {
+    display: inline;
+}
+
+.total {
+    padding: 1.8rem 0;
+    font-weight: 700;
+    border-bottom: 3px solid #333;
+    border-top: 3px double #333;
+}
+
+.price::before {
+    content: "\20A6"
+}
+
+.price {
+    float: right;
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: 90%;
+        margin: 5%;
+    }
+}

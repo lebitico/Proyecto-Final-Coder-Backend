@@ -2,8 +2,6 @@ import { Router } from "express";
 import {
   addProduct,
   getProductsRealTime,
-  getProducts,
-  getProductByID,
   updateProducts,
   deleteProducts,
 } from "../controllers/products.controller.js";
@@ -24,20 +22,10 @@ router.delete(
 );
 
 router.get(
-  "/products",
-  passport.authenticate("jwt", { session: false }),
-  getProducts
-);
-
-router.get(
   "/realtimeProducts",
   passport.authenticate("jwt", { session: false }),
   getProductsRealTime
 );
-router.get(
-  "/:pid",
-  passport.authenticate("jwt", { session: false }),
-  getProductByID
-);
+
 
 export default router;

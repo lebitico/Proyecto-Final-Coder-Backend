@@ -3,6 +3,11 @@ import { generateToken } from "../utils.js";
 import jwt from "jsonwebtoken";
 import Swal from "sweetalert2";
 
+export const renderLogin = (req, res) => {
+  if (Object.keys(req.cookies).length != 0) return res.redirect("/profile");
+  res.render("login", {})
+}
+
 export const loginUser = async (req, res) => {
   try {
     const user = await sessionService.loginUser(req.body);
@@ -22,6 +27,11 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const renderRegister = (req, res) => {
+  if (Object.keys(req.cookies)?.length != 0) return res.redirect("/profile");
+  res.render("register", {})
+}
 
 export const registerUser = async (req, res) => {
   try {
