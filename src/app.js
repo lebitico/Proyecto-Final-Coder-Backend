@@ -68,13 +68,18 @@ app.use(passport.session());
 app.use(cookieParser("secretForJWT"));    
 app.use(passport.session());
 app.use("/", viewsRouter);
+app.use("/", loggerTest);
+app.use("/", mailingRouter);
+
 app.use('/api/session', sessionRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/payments', paymentsRouter)
+app.use("/api/allproducts", mockingProducts);
 app.use('/api/chat', chatRouter)
-app.use("/api/docs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use('/api/users', usersRouter)
+app.use("/api/tickets", ticketsRouter);
 
 const runServer = () => {
   const httpServer = app.listen(
