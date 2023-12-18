@@ -14,9 +14,11 @@ import {
 import passport from "passport";
 const router = Router();
 
-router.post("/login", loginUser);
+router.post("/login",passport.authenticate("login", { failureRedirect: "/login" }), loginUser);
 
-router.post("/register", registerUser);
+router.post("/register", 
+passport.authenticate("register", { failureRedirect: "/register" }),
+registerUser);
 
 router.get(
   "/logout",
@@ -38,12 +40,43 @@ router.get(
   getUserCurrent
 );
 
+/*router.get(
+  "/current",
+  authorizationStrategy("jwt", { session: false }),
+  authorizationRol("Admin"),
+  (req, res) => {
+    res.send({ status: "success", payload: req.user });
+  }
+); */
+
+router.get(
+  "/currentUser",
+  authorizationStrategy("jwt", { session: false }),
+  authorizationRol(["Usuario", "Admin", "Premium"]),
+  extractNonSensitiveUserInfo,
+  (req, res) => {
+    if (req.nonSensitiveUserInfo) {
+      res.send({ status: "success", payload: req.nonSensitiveUserInfo });
+    } else {
+      res.status(401).send({ error: "No autorizado" });
+    }
+  }
+);
+
 router.get("/resetPassword", resetearPassword);
+
+router.post("/resetPassConfirm", resetPassword);
 
 router.post("/restart", restart);
 
 router.get("/resetPasswordForm/:token", resetPasswordForm);
 
 router.post("/validPassword", validPassword);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  loginGithub
+);
 
 export default router;
