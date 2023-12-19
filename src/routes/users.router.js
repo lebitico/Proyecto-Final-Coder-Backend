@@ -8,7 +8,12 @@ import {
   inactiveUser,
   deleteUserById,
   getTicketUser,
-  getCurrentUser
+  getCurrentUser,
+  createUser,
+  getUserById,
+  getUserByEmail,
+  updatedUserById,
+  updatedUserRole
 } from "../controllers/users.controller.js";
 
 import upload from "../middlewares/multer.js";

@@ -4,12 +4,16 @@ import {
   getProductsRealTime,
   updateProducts,
   deleteProducts,
+  getProducts,
+  getProductByID
 } from "../controllers/products.controller.js";
 import passport from "passport";
 
 const router = Router();
 
-router.post("/", passport.authenticate("jwt", { session: false }), addProduct);
+router.post("/", passport.authenticate("jwt", { session: false }), authorizationRol(["Premium", "Admin"]), 
+addProduct);
+
 router.put(
   "/:pid",
   passport.authenticate("jwt", { session: false }),
@@ -27,5 +31,16 @@ router.get(
   getProductsRealTime
 );
 
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  getProducts
+);
+
+router.get(
+  "/:pid",
+  passport.authenticate("jwt", { session: false }),
+  getProductByID
+);
 
 export default router;

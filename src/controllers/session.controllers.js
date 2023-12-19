@@ -106,6 +106,36 @@ export const resetPasswordForm = async (req, res) => {
   });
 };
 
+
+export const resetPassword = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await userService.getUserByEmail(email);
+
+    if (user) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const currentPassword = user.password;
+
+      if (await bcrypt.compare(password, currentPassword)) {
+        return res.status(400).json({
+          message: "La nueva contraseña no puede ser igual a la actual",
+        });
+      }
+
+      const updatedUser = { password: hashedPassword };
+      await userService.updatedUserById(user.id, updatedUser);
+
+      return res.redirect("/login");
+    } else {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error al restablecer la contraseña:", error);
+    res.status(500).json({ message: "Error al restablecer la contraseña" });
+  }
+};
+
 export const validPassword = async (req, res) => {
   try {
     const password = req.body.newPassword;
@@ -129,4 +159,19 @@ export const logoutUser = async (req, res) => {
   const { user } = req.user;
   await sessionService.setDateController(user);
   res.clearCookie("keyCookieForJWT").redirect("/api/session/login");
+};
+
+export const loginGithub = async (req, res) => {
+  const user = req.user;
+  user.last_connection = new Date().toLocaleString();
+  await user.save();
+
+  const access_token = generateToken(user);
+
+  res
+    .cookie(config.secret_cookie, access_token, {
+      maxAge: 60 * 60 * 10000,
+      httpOnly: true,
+    })
+    .redirect("/profile");
 };

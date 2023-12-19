@@ -10,13 +10,13 @@ import {
   authorizationRol,
   authorizationStrategy,
   extractNonSensitiveUserInfo,
-} from "../utils.js";
+} from "../utils/utils.js";
 
 const router = Router();
 
 router.post(
   "/tickets",
-  authorizationStrategy("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   authorizationRol(["Usuario", "Premium"]),
   extractNonSensitiveUserInfo,
   createTicket

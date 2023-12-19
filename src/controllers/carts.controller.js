@@ -264,3 +264,22 @@ export const deleteProductOneCartById = async (req, res) => {
     res.status(200).render("popUp", { message, URI });
   }
 };
+
+
+export const finishPurchase = async (req, res) => {
+  const cid = req.params.cid;
+
+  try {
+    const result = await cartService.finishPurchase(cid);
+    res.status(200).json(cart);
+  } catch (error) {
+    req.logger.fatal("Error al eliminar el producto");
+    const message = {
+      message: error,
+    };
+    const URI = {
+      URI: "/api/products/products",
+    };
+    res.status(200).render("popUp", { message, URI });
+  }
+};

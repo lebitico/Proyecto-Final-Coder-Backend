@@ -191,3 +191,97 @@ export const inactiveUser = async (req, res) => {
     res.status(500).render("popUp", { message, URI });
   }
 };
+
+export const createUser = async (req, res) => {
+  const user = req.body;
+  try {
+    const userCreate = userService.createUser(user);
+    //res.send({ status: "success", payload: userCreate });
+    res.status(500).render("popUp", { message, URI });
+  } catch (e) {
+    req.logger.error("No se pudo crear usuario");
+    handleError(config.user_not_add, res);
+  }
+};
+
+
+export const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req?.params?.email;
+    const user = await userService.getUserByEmail(email);
+
+    //res.send({ message: "Usuario encontrado", payload: user });
+    res.status(500).render("popUp", { message, URI });
+  } catch (error) {
+    req.logger.error("No se pudo obtener usuario por email");
+    handleError(config.user_not_found, res);
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await userService.getUserById(id);
+
+    //res.send({ message: "Usuario encontrado", payload: user });
+    res.status(500).render("popUp", { message, URI });
+  } catch (error) {
+    req.logger.error("No se pudo obtener usuario por id");
+    handleError(config.user_not_found, res);
+  }
+};
+
+export const updatedUserById = async (req, res) => {
+  const userId = req.params.id;
+  const { first_name, last_name, email, age, password, cart, roles } = req.body;
+  const updatedUser = {
+    first_name,
+    last_name,
+    email,
+    age,
+    password,
+    cart,
+    roles,
+  };
+
+  try {
+    const result = await userService.updatedUserById(userId, updatedUser);
+
+    //res.send({ status: "Usuario actualizado exitosamente", payload: result });
+    res.status(500).render("popUp", { message, URI });
+  } catch (error) {
+    req.logger.error("No se pudo actualizar usuario");
+    handleError(config.user_not_update, res);
+  }
+};
+
+export const updatedUserRole = async (req, res) => {
+  const userId = req.params.id;
+  const { roles } = req.body;
+  const updatedRole = { roles };
+
+  try {
+    const user = await userService.getUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Verificar si el usuario ha cargado los documentos requeridos
+    const documents = user.documents.map(doc => doc.fileType);
+    const requiredDocuments = ['Identificacion', 'Domicilio', 'Estado_cuenta'];
+
+    const hasRequiredDocuments = requiredDocuments.every(doc => documents.includes(doc));
+
+    if (!hasRequiredDocuments) {
+      return res.status(400).json({ message: 'El usuario no ha cargado todos los documentos requeridos' });
+    }
+
+    // Actualizar el rol solo si tiene los documentos requeridos
+    const result = await userService.updatedUserById(userId, updatedRole);
+    return res.send({ status: 'Rol actualizado exitosamente', payload: result });
+  } catch (error) {
+    console.error('Error al actualizar el rol del usuario:', error);
+    return res.status(500).json({ message: 'Error al actualizar el rol del usuario', error: error.message });
+  }
+};

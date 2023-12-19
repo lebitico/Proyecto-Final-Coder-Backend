@@ -10,6 +10,8 @@ import {
   validPassword,
   getProfile,
   logoutUser,
+  resetPassword,
+  loginGithub
 } from "../controllers/session.controllers.js";
 import passport from "passport";
 const router = Router();
@@ -39,15 +41,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   getUserCurrent
 );
-
-/*router.get(
-  "/current",
-  authorizationStrategy("jwt", { session: false }),
-  authorizationRol("Admin"),
-  (req, res) => {
-    res.send({ status: "success", payload: req.user });
-  }
-); */
 
 router.get(
   "/currentUser",

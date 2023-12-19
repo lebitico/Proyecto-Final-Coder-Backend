@@ -1,10 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
-import { generateToken, generateProducts } from "../utils.js";
-import { getProfile, loginUser, renderLogin, renderRegister } from "../controllers/session.controllers.js";
-import {
-  getProducts, getProductByID
-} from "../controllers/products.controller.js";
+import { generateToken, generateProducts } from "../utils/utils.js";
+import { getProfile, renderLogin, renderRegister } from "../controllers/session.controllers.js";
+//import { getProducts, getProductByID } from "../controllers/products.controller.js";
 
 const router = Router();
 
@@ -50,6 +48,7 @@ router.get(
   }),
   async (req, res) => {}
 );
+
 router.get(
   "/googlecallback",
   passport.authenticate("google", { failureRedirect: "/" }),
@@ -84,18 +83,6 @@ router.get("/loggerTest", (req, res) => {
 
 
 router.get("/login", renderLogin);
-
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  getProducts
-);
-
-router.get(
-  "/:pid",
-  passport.authenticate("jwt", { session: false }),
-  getProductByID
-);
 
 //Reestablecer Pass
 router.get("/resetPass", auth, (req, res) => {
@@ -200,17 +187,5 @@ router.get("/productos", async (req, res) => {
     return res.status(500).send("Error al enviar products.");
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default router;
