@@ -1,14 +1,12 @@
 //import PaymentDTO from "../DAO/DTO/payment.dto.js";
 import {
-  paymentService,
   ticketService,
   cartService,
-  userService,
-  productService,
 } from "../services/index.js";
 import Stripe from "stripe";
 import config from "../config/config.js";
 import nodemailer from "nodemailer";
+import { sent_success } from "../controllers/mailing.controller.js";
 
 const stripe = new Stripe(config.STRIPE_PRIVATE_KEY);
 
@@ -24,9 +22,34 @@ export default class PaymentRepository {
   constructor(ticketDAO, cartDAO) {
     this.ticketDAO = ticketDAO;
     this.cartDAO = cartDAO;
+    this.stripe = new Stripe(config.STRIPE_PRIVATE_KEY);
   }
 
-  creacteCheckout = async (id) => {
+  creacteCheckout = async (items, id) => {
+    const lineItems = items
+    .filter((item) => item.pid.stock > 0)
+    .map((item) => ({
+      price_data: {
+        product_data: {
+          name: item.pid.title,
+        },
+        currency: "usd",
+        unit_amount: item.pid.price,
+      },
+      quantity: item.quantity,
+    }));
+
+    const session = await this.stripe.checkout.sessions.create({
+      line_items: lineItems,
+      mode: "payment",
+      success_url: `https://proyecto-final-coder-backend-production-germanianiero.up.railway.app/api/payments/success/${cid}`,
+      cancel_url: `https://proyecto-final-coder-backend-production-germanianiero.up.railway.app/api/payments/cancel/${cid}`,
+    });
+
+    return session;
+  };
+
+  /*
     try {
       const ticket = await this.ticketDAO.getTicketById(id);
       const products = ticket.products;
@@ -53,9 +76,44 @@ export default class PaymentRepository {
     } catch (e) {
       throw e;
     }
+  }; */
+  sucessPayment = async (cid, email) => {
+
+    const cart = await cartService.getCartById(cid);
+    const purchaseData = await cartService.finishPurchase(cart);
+
+    if (purchaseData && purchaseData.amountTotalBuy !== undefined) {
+      const amountTotalBuy = purchaseData.amountTotalBuy;
+      const buyProducts = purchaseData.buyProducts;
+
+      const products = buyProducts.map((product) => ({
+        pid: {
+          title: product.pid.title,
+          price: product.pid.price,
+        },
+        quantity: product.quantity,
+      }));
+
+      const ticketData = {
+        amount: amountTotalBuy,
+        purchaser: email,
+        products: products,
+      };
+
+      const newTicket = await ticketService.createTicket(ticketData);
+      console.log(newTicket);
+
+      await sent_success(email, amountTotalBuy, products, newTicket);
+
+      return newTicket;
+    } else {
+      throw new Error("Error al finalizar la compra");
+    }
   };
-  sucessPayment = async (ticketId) => {
-    const ticket = await this.ticketDAO.getTicketById(ticketId);
+
+
+
+    /*const ticket = await this.ticketDAO.getTicketById(ticketId);
     ticket.status = "confirmate";
     await this.ticketDAO.updateTicket(ticketId, ticket);
     const result = transporter.sendMail({
@@ -74,10 +132,10 @@ export default class PaymentRepository {
             }`,
     });
     return ticket;
-  };
+  }; */
 
-  cancellPayment = async (ticketId) => {
-    const ticket = await this.ticketDAO.getTicketById(ticketId);
+  cancellPayment = async () => {};
+    /*const ticket = await this.ticketDAO.getTicketById(ticketId);
     const user = await userService.getUserByEmail(ticket.purcharser);
     const cartUser = await cartService.getCartUserById(user);
     for (const product of ticket.products) {
@@ -92,6 +150,6 @@ export default class PaymentRepository {
       await cartService.updateCartById(cid, cart);
     }
     ticket.status = "canceled";
-    await this.ticketDAO.updateTicket(ticket._id, ticket);
-  };
+    await this.ticketDAO.updateTicket(ticket._id, ticket);*/
+  
 }

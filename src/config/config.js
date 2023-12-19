@@ -27,4 +27,5 @@ export default {
     PRIVATE_KEY: process.env.PRIVATE_KEY,
     USER: process.env.USER,
     PASS: process.env.PASS,
+    SECRET_COOKIE: process.env.SECRET_COOKIE
 }

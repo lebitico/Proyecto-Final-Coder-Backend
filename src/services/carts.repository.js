@@ -18,9 +18,15 @@ export default class CartRepository {
     this.ticketDAO = ticketDAO;
   }
 
-  getCarts = async () => {
-    return await this.dao.getCarts();
+  getCarts = async (limit) => {
+    if (limit) {
+      const carts = await this.dao.getCarts();
+      return carts.slice(0, limit);
+    } else {
+      return await this.dao.getCarts();
+    } 
   };
+
   getCartById = async (cid) => {
     try {
       return await this.dao.getCartById(cid);
@@ -198,6 +204,11 @@ export default class CartRepository {
       throw error;
     }
   };
+
+  addProductCart = async (cid, pid, quantity) => {
+    return await this.dao.addProductCart(cid, pid, quantity);
+  };
+  
   updateProductCartById = async (cid, pid, quantity) => {
     try {
       let cart = await this.cartDAO.getCartById(cid);

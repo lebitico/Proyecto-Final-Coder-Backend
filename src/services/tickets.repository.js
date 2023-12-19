@@ -3,7 +3,7 @@ export default class TicketRepository {
     this.ticketDao = ticketDao;
   }
 
-  async createTicket(data) {
+  createTicket= async (data)=> {
     try {
       const ticket = await this.ticketDao.createTicket(data);
       return ticket;
@@ -11,12 +11,27 @@ export default class TicketRepository {
       throw error;
     }
   }
-  async getTicket(id) {
+  getTicket = async (limit) =>{
     try {
-      const ticket = await this.ticketDao.getTicketById(id);
-      return ticket;
+      return await this.ticketDao.getTicketById(limit);
+     
     } catch (e) {
       throw e;
     }
   }
+
+
+  getTicketById = async (id) => {
+    return await this.dao.getTicketById(id);
+  };
+
+  updateTicketById = async (id, updatedTicket) => {
+    return await this.dao.updateTicketById(id, updatedTicket);
+  };
+
+  deleteTicket = async (id) => {
+    return await this.dao.deleteTicket(id);
+  };
+
+
 }

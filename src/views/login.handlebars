@@ -1,45 +1,29 @@
-<div class="row">
-  <div class="col-md-4 mx-auto">
-    <div class="card mt-5 bg-black text-white rounded">
-      <div class="card-header text-center pt-5">
-        <h1 class="h4 text-white">
-           Login
-        </h1>
-      </div>
-      <img
-        class="rounded-circle mx-auto d-block logo m-4"
-        src="https://toppng.com/public/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
-        width="50px" height="50px"
-        alt="Logo"
-      />
-      <div class="card-body">
-        <form action="/api/session/login" method="post">
-          <div class="mb-3">
-            <label for="email">Email:</label>
-            <input
-              type="email"
-              class="form-control bg-dark text-white"
-              name="email"
-              placeholder="Email"
-              autofocus
-            />
-          </div>
-          <div class="mb-3">
-            <label for="passswore">Password:</label>
-            <input
-              type="password"
-              class="form-control bg-dark text-white"
-              name="password"
-              placeholder="Password"
-            />
-          </div>
-          <button type="submit" class="btn btn-success btn-block">
-            Enviar
-          </button>
-        </form>
-      </div>
+<li><a title="">Login</a></li>
+</ol>
+</div>
+</div>
+</header>
 
-      <p class="text-center">¿No tienes una cuenta? <a href="/register" class="text-info">Registrate</a></p>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="active"> Log In </h2>
+    <!-- Login Form -->
+    <form action="/api/session/login" method="post">
+      <input type="email" id="login" class="fadeIn second" name="email" placeholder="Email">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
+      <input type="submit" class="fadeIn fourth" value="Iniciar Sesion">
+      <input type="submit" class="fadeIn fourth" value="Login Git Hub">
+      <a href="/login-github" class="btn_git">Iniciar sesión con GitHub</a>
+      <input type="submit" class="fadeIn fourth" value="Login Google">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <p class="text-center">¿Olvidaste tu contraseña?</p><a class="underlineHover" href="/resetPassword">
+        Restablecela</a>
+      <p class="text-center">¿No tienes cuenta? <a class="underlineHover" href="/register">Registrate</a> </p>
     </div>
+
   </div>
 </div>

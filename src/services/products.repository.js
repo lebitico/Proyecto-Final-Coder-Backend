@@ -1,9 +1,9 @@
 import ProductDTO from "../DAO/DTO/products.dto.js";
-import CustomError from "../utils/errors/CustomError.js";
-import EErrors from "../utils/errors/enums.js";
-import { generateProductsErrorInfo } from "../utils/errors/info.js";
-import nodemailer from "nodemailer";
-import config from "../config/config.js";
+//import CustomError from "../utils/errors/CustomError.js";
+//import EErrors from "../utils/errors/enums.js";
+//import { generateProductsErrorInfo } from "../utils/errors/info.js";
+//import nodemailer from "nodemailer";
+//import config from "../config/config.js";
 
 export default class ProductRepository {
   constructor(productDAO, userDAO) {
@@ -11,27 +11,30 @@ export default class ProductRepository {
     this.userDAO = userDAO;
   }
 
-  getProducts = async () => {
-    try {
+  getProducts = async (limit) => {
+    return await this.productDAO.getProducts(limit);
+   /* try {
       const products = await this.productDAO.getProducts();
       return products.map((product) => new ProductDTO(product));
     } catch (error) {
       throw error;
-    }
+    }*/
   };
 
   //return await this.dao.getProducts() }
   getProductById = async (pid) => {
-    try {
-      const product = await this.productDAO.getProductById(id);
-      return product;
+    //try {
+      return await this.productDAO.getProductById(id);
+    /*  return product;
     } catch (error) {
       throw error;
-    }
+    }*/
     //return await this.dao.getProductById(pid) }
   };
   addProduct = async (data) => {
-    try {
+    return await this.productDAO.addProducts(data);
+  
+    /*try {
       const productExist = await this.productDAO.getProductByCode(data.code);
       if (productExist) {
         CustomError.createError({
@@ -65,20 +68,22 @@ export default class ProductRepository {
       }
     } catch (error) {
       throw error;
-    }
+    }*/
   };
 
   createProducts = async (product) => {
     const productToInsert = new ProductDTO(product);
     return await this.dao.createProduct(productToInsert);
   };
-  updateProducts = async (id, data) => {
+  updateProducts = async (id, updatedProduct) => {
+    return await this.productDAO.updateProduct(id, updatedProduct);
+    /*
     try {
       const product = await this.productDAO.updateProduct(id, data);
       return product;
     } catch (error) {
       throw error;
-    }
+    } */
     /*const product = this.getProductById(pid)
         if (!product) {
             throw new Error("no existe el producto");
@@ -86,13 +91,14 @@ export default class ProductRepository {
         
         return await this.dao.updateProduct(pid, productUpdate)*/
   };
-  deleteProducts = async (pid, email) => {
+  deleteProducts = async (pid) => {
+    return await this.dao.deleteProduct(pid);
     /* const product = this.getProductById(pid)
         if (!product) {
             throw new Error("no existe el producto");
           }
         
-        return await this.dao.deleteProducts(pid, product)*/
+        return await this.dao.deleteProducts(pid, product)
     try {
       const user = await this.userDAO.getUserByEmail(email);
       if (user.rol === "admin") {
@@ -124,7 +130,7 @@ export default class ProductRepository {
       throw "El mail que proporcionó no posee permisos para eliminar productos,ingrese uno válido.";
     } catch (error) {
       throw error;
-    }
+    }*/
   };
 
   getProductsPaginate = async (page, limit, queryParams, sort) => {

@@ -8,6 +8,10 @@ import { config } from "dotenv";
 config();
 
 import jwt from "jsonwebtoken";
+import passport from "passport";
+import { productService } from "./services/index.js";
+import multer from "multer";
+import { Config } from "twilio/lib/twiml/VoiceResponse.js";
 
 export const generateUser = () => {
   const numOfProducts = faker.number.int({ max: 10 });
@@ -52,8 +56,12 @@ export const generateToken = (user) => {
   });
 };
 
+export const generateTokenPass = (user) => {
+  return jwt.sign({ user }, config.secret_jwt, { expiresIn: "12h" });
+};
+
 export const extractCookie = (req) => {
-  return req && req.cookies ? req.cookies["coderCookie"] : null;
+  return req && req.cookies ? req.cookies[config.SECRET_COOKIE] : null;
 };
 
 export const authorization = (rol) => {
@@ -71,9 +79,9 @@ export const generateProducts = () => {
     title: faker.commerce.productName(),
     price: faker.commerce.price(),
     departament: faker.commerce.department(),
-    stock: faker.datatype.number(),
+    stock: faker.number.int({min: 1}),
     id: faker.database.mongodbObjectId(),
-    image: faker.image.imageUrl(),
+    image: faker.image.avatar(),
   };
 };
 

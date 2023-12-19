@@ -14,8 +14,7 @@ export default class UserRepository {
 
   createUser = async (data) => {
     try {
-      const user = await this.userDAO.createUser(data);
-      return user;
+      return await this.userDAO.createUser(data);
     } catch (error) {
       throw error;
     }
@@ -23,16 +22,14 @@ export default class UserRepository {
 
   getUserById = async (id) => {
     try {
-      const user = await this.userDAO.getUserById(id);
-      return user;
+      return await this.userDAO.getUserById(id);
     } catch (error) {
       throw error;
     }
   };
-  getUsers = async () => {
+  getUsers = async (limit) => {
     try {
-      const users = await this.userDAO.getUsers();
-      return users;
+      return await this.userDAO.getUsers(limit);
     } catch (error) {
       throw error;
     }
@@ -40,12 +37,11 @@ export default class UserRepository {
 
   getUserByEmail = async (email) => {
     try {
-      const user = await this.userDAO.getUserByEmail(email);
-      return user;
+      return await this.userDAO.getUserByEmail(email);
     } catch (error) {
       throw error;
     }
-  };
+  
   //getUsers = async () => { return await this.dao.getUsers() }
   //getUserById = async(id) => { return await this.dao.getUserById(id) }
   //getUserByEmail = async(email) => { return await this.dao.getUserByEmail(email) }
@@ -54,6 +50,7 @@ export default class UserRepository {
         return await this.dao.createUsers(userToInsert)
         
     }*/
+  };
   getUserByEmailCode = async (email, verificationCode) => {
     try {
       const user = await this.userDAO.getUserByEmailCode(
@@ -75,10 +72,17 @@ export default class UserRepository {
     }
   };
 
+  updatedUserById = async (id, updatedUser) => {
+    return await this.userDAO.updatedUserById(id, updatedUser);
+  };
+
+  updatedUserRole = async (id, updatedRole) => {
+    return await this.userDAO.updatedUserById(id, updatedRole);
+  };
+
   deleteUser = async (id) => {
     try {
-      const user = await this.userDAO.deleteUser(id);
-      return new UserDTO(user);
+      return await this.userDAO.deleteUser(id);
     } catch (error) {
       throw error;
     }
@@ -146,6 +150,9 @@ export default class UserRepository {
     }
   };
 
+  createDocuments = async (id, files) =>{
+    return await this.dao.createDocuments(id, files)
+  }
   uploadDocuments = async (id, files) => {
     try {
       const userDB = await this.userDAO.getUserById(id);
