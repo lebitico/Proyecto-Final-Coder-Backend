@@ -16,8 +16,10 @@ import initializePassport from './config/passport.config.js'
 import { addLogger } from './utils/logger.js'
 import cookieParser from 'cookie-parser'
 import paymentsRouter from './routes/payment.router.js'
-
-
+import loggerTest from "./routes/loggerTest.js";
+import mailingRouter from "./routes/mailing.router.js";
+import mockingProducts from "./routes/mockingProducts.router.js";
+import ticketsRouter from "./routes/tickets.router.js";
 import swaggerUiExpress from 'swagger-ui-express';
 import { specs } from "./docs/swagger.js";
 import { Server } from "socket.io";

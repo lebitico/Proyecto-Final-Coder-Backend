@@ -10,8 +10,8 @@ import {
   authorizationRol,
   authorizationStrategy,
   extractNonSensitiveUserInfo,
-} from "../utils/utils.js";
-
+} from "../utils.js";
+import passport from 'passport'
 const router = Router();
 
 router.post(

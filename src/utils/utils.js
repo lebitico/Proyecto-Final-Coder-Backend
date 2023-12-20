@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
-//import {fileURLToPath} from 'url'
-import { dirname } from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import bcrypt from "bcrypt";
@@ -9,9 +10,9 @@ config();
 
 import jwt from "jsonwebtoken";
 import passport from "passport";
-import { productService } from "./services/index.js";
+
 import multer from "multer";
-import { Config } from "twilio/lib/twiml/VoiceResponse.js";
+
 
 export const generateUser = () => {
   const numOfProducts = faker.number.int({ max: 10 });
@@ -84,5 +85,15 @@ export const generateProducts = () => {
     image: faker.image.avatar(),
   };
 };
+
+export const extractNonSensitiveUserInfo = (req, res, next) => {
+  if (req.user) {
+    const { first_name, last_name, email, age, cart } = req.user.user;
+    req.nonSensitiveUserInfo = { first_name, last_name, email, age, cart };
+  }
+  next();
+};
+
+
 
 export default __dirname;

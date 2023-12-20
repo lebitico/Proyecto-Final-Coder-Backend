@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { fileURLToPath } from "url";
+import passport from "passport";
 //import {fileURLToPath} from 'url'
 import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -76,6 +77,50 @@ export const generateProducts = () => {
     id: faker.database.mongodbObjectId(),
     image: faker.image.imageUrl(),
   };
+};
+
+
+export const authorizationStrategy = (strategy) => {
+  return async (req, res, next) => {
+    passport.authenticate(strategy, function (err, user, info) {
+      if (err) return next(err);
+      if (!user) {
+        return res.status(401).send({
+          error: info.messages ? info.messages : info.toString(),
+        });
+      }
+      req.user = user;
+      next();
+    })(req, res, next);
+  };
+};
+
+export const authorizationRol = (validRoles) => {
+  return async (req, res, next) => {
+    const user = req.user;
+
+    if (!user) return res.status(401).send({ error: "No autorizado" });
+
+    if (validRoles.includes(user.user.roles)) {
+      next();
+    } else {
+      res.status(403).send({ error: "Usuario no autorizado" });
+    }
+  };
+};
+
+//Manejador de errores
+export const handleError = (code, res) => {
+  const message = code || "Error desconocido";
+  res.status(500).json({ error: message });
+};
+
+export const extractNonSensitiveUserInfo = (req, res, next) => {
+  if (req.user) {
+    const { first_name, last_name, email, age, cart } = req.user.user;
+    req.nonSensitiveUserInfo = { first_name, last_name, email, age, cart };
+  }
+  next();
 };
 
 export default __dirname;

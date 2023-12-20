@@ -1,10 +1,12 @@
 import { Router } from "express";
 import passport from "passport";
+import { authorizationRol, authorizationStrategy } from "../utils.js";
 import { generateToken, generateProducts } from "../utils/utils.js";
 import { getProfile, renderLogin, renderRegister } from "../controllers/session.controllers.js";
 //import { getProducts, getProductByID } from "../controllers/products.controller.js";
 
 const router = Router();
+// import auth from './auth';
 
 router.get("/", (req, res) => {
   res.render("home", {});
@@ -84,32 +86,32 @@ router.get("/loggerTest", (req, res) => {
 
 router.get("/login", renderLogin);
 
-//Reestablecer Pass
-router.get("/resetPass", auth, (req, res) => {
-  res.render("resetPass", {});
-});
+// //Reestablecer Pass
+// router.get("/resetPass", auth, (req, res) => {
+//   res.render("resetPass", {});
+// });
 
-//Reestablecer Pass
-router.get("/resetPassError", auth, (req, res) => {
-  res.render("resetPassError", {});
-});
+// //Reestablecer Pass
+// router.get("/resetPassError", auth, (req, res) => {
+//   res.render("resetPassError", {});
+// });
 
-// Reestablecer Pass confirm
-router.get("/resetPassConfirm", auth, (req, res) => {
-  const token = req.query.token;
+// // Reestablecer Pass confirm
+// router.get("/resetPassConfirm", auth, (req, res) => {
+//   const token = req.query.token;
 
-  try {
-    const decoded = jwt.verify(token, config.secret_jwt);
-    const isExpired = Date.now() > decoded.exp * 1000;
-    if (isExpired) {
-      res.render("resetPassError", { message: "El enlace ha expirado" });
-    } else {
-      res.render("resetPassConfirm", { token });
-    }
-  } catch (error) {
-    res.render("resetPassError", { message: "Error al verificar el enlace" });
-  }
-});
+//   try {
+//     const decoded = jwt.verify(token, config.secret_jwt);
+//     const isExpired = Date.now() > decoded.exp * 1000;
+//     if (isExpired) {
+//       res.render("resetPassError", { message: "El enlace ha expirado" });
+//     } else {
+//       res.render("resetPassConfirm", { token });
+//     }
+//   } catch (error) {
+//     res.render("resetPassError", { message: "Error al verificar el enlace" });
+//   }
+// });
 
 //Ruta para admins
 router.get(
